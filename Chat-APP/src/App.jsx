@@ -1,13 +1,14 @@
 import Landing_page from './Landing_page'
 import Login_page from './login_page'
-import Welcom_page from './Welcome_page'
+import Welcome_page from './Welcome_page'
+import Find_contacts from './find_contact_page'
 
 function App() {
   
 
   return (
     <> 
-    <Welcom_page/>
+    <Find_contacts/>
     </>
   )
 }

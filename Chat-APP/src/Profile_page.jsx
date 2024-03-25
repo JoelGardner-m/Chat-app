@@ -1,11 +1,11 @@
+import Contact from "./contacts"
 
-
-function profile(){
+function Profile(){
 
     return (
         <>
-        <div style={{border:30}}>
-
+        <div style={{border:30, background:'ffffff'}}>
+            <Contact></Contact>
 
 
         </div>
@@ -20,4 +20,4 @@ function profile(){
 }
 
 
-export default profile
+export default Profile

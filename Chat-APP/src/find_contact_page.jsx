@@ -4,7 +4,7 @@ function Find_contacts(){
     //type="submit"
     return (
         <>
-           <div style={    {position:'relative', alignItems:'center', display: 'flex', justifyContent: 'center', alignItems: 'center'} }>
+           <div style={    {position:'relative', alignItems:'center', display: 'flex', justifyContent: 'center'} }>
             <div style={    {textAlign:'center'} }>
                 
                 <h1 style={ {marginTop:'20%', fontSize:'40px'}  }>Welcome username to chat app </h1>

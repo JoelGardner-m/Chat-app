@@ -8,7 +8,7 @@ function Profile(){
     
     return (
         <>
-            <div style={ { display: 'flex', alignItems : 'flex-start', height:viewportHeight }}>
+            <div style={ {display: 'flex', alignItems : 'flex-start', height:viewportHeight }}>
                 
                     <ContactsWidget ></ContactsWidget>
                 

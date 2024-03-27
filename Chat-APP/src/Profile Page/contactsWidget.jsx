@@ -1,19 +1,12 @@
-import Card from "../card";
+import Card from "./message-Cards";
 
 
 
 
 function ContactsWidget(props){
+    
     const viewportHeight = window.innerHeight;
-    const newMessage = `Hey there!
-
-    You won't believe the adventure I had yesterday! So, I finally decided to try out that new sushi place downtown. As I walked in, the aroma of fresh fish hit me, and I knew I was in for a treat. I ordered their chef's special, and let me tell you, it was out of this world! Each piece was a burst of flavor, and I couldn't get enough.
     
-    But wait, it gets better. As I was leaving, I bumped into an old friend from high school! Can you believe it? We ended up catching up for hours over green tea and mochi ice cream. It's amazing how life brings people back together, isn't it?
-    
-    Anyway, I can't wait to hear about what's been going on with you lately. Let's grab coffee soon and catch up properly!
-    
-    Take care`
     const contact = [
         {
           id: '_1',

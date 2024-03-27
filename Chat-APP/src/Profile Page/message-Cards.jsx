@@ -1,4 +1,4 @@
-import logo from './assets/logo 1.png'
+import logo from '../assets/logo 1.png'
 import { useState, useEffect } from 'react';
 
 function Card(props){

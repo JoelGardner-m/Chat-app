@@ -34,6 +34,12 @@ async function run() {
 }
 run().catch(console.dir);
 
+const get_collection = async (database)=>{
+
+  const list = client.db(database).listCollections().toArray();
+
+  return list 
+}
 
 
 //insert create

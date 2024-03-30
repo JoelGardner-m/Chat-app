@@ -2,13 +2,13 @@ const express = require('express');
 
 const app = express()
 
-app.get('/', (res, req) => {
+app.get('/', (req, res) => {
     res.send(`bob`)
 
 
 })
 
-app.post('./',(res, req) => {
+app.post('/',(req, res) => {
     res.send(`bob`)
 
 

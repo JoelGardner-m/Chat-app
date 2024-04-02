@@ -1,18 +1,39 @@
 const express = require('express');
-
+const Cors = require('cors')
+const { readOneDocument, readAllDocuments, checkIfUserExists, insertOneDocument, updateOneDocument, deleteOneDocument }= require('./Chat-App/src/Particpants-DBRequest')
 const app = express()
 
-app.use(express.static('./public'))
+app.use(Cors())
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 
-app.get('/', (req, res) => {
+app.get("/", (req, res)=>{
+  res.send("helloe")
 
 })
 
+app.get('/api', (req, res) => {
+  res.send('accessing api')
+})
 
-app.post('/submit', (req, res) => {
-  const name = req.body.name;
-  res.send(`Hello, ${name}!`);
+app.get('/api/users', (req, res)=>{
+  res.status(200).json({bob:'op', jim:'a'})
+
+
+})
+
+app.post('/signin', async (req, res) => {
+  const info = req.body;
+  const {email,name} = req.body;
+  const User_existence =  await checkIfUserExists(name)
+  
+  if (User_existence  ){
+    return res.status(200).json({success:false, message: "username is already taken"});
+    
+  }
+  return res.status(200).json({success:true, data:{}})
+    
 });
 
 app.patch('/:id',(req, res) => {
@@ -20,6 +41,15 @@ app.patch('/:id',(req, res) => {
 
 })
 
+app.post('/api/v1/user',async (req, res) => {
+  
+  
+
+  
 
 
-app.listen(5000, console.log('active port on 5000'));
+
+})
+
+
+app.listen(5173, console.log('active port on 5000'));

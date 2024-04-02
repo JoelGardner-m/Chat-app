@@ -21,7 +21,7 @@ function Landing_page() {
             <br/>a place Where Trust Thrives and Collaborations Soar.
             </h1>
         
-            <button style={{'background-color':'#1FEDA8', color: '#05001F', borderRadius:20, marginLeft: '0', marginTop: 20 , padding:10, paddingLeft:100, paddingRight:100}}> <b>Log in</b></button>
+            <button style={{backgroundColor:'#1FEDA8', color: '#05001F', borderRadius:20, marginLeft: '0', marginTop: 20 , padding:10, paddingLeft:100, paddingRight:100}}> <b>Log in</b></button>
 
         </div>
     

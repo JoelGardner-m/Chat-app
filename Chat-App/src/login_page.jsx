@@ -1,21 +1,58 @@
+import React, { useState, useEffect } from 'react';
 
 
-function Login_page() {
+const profile_page =  ()=>{
+    
+    fetch("/profile").then((res)=>{
+         if (!res.redirected) {
+             // Redirect the user to the new page
+             
+           
+             window.location.href = res.url;
+         }
+ 
+     }).catch((error)=>{
+         console.error('Error', error)
+ 
+ 
+     })
+     
+      
+      
+ 
+      
+  }
   
 
+function Login_page() {
+    const [NextPage, SetNextPage] = useState()
+    useEffect(()=>{
+        switch(NextPage){
+            case "/profile_page":
+            profile_page()
+            break;
+        }
+
+    }, [NextPage])
+    function changePage (nextPage){
+        SetNextPage(nextPage)
+    }
+    function changePage (nextPage){
+        SetNextPage(nextPage)
+    }
     return (
     <> 
 
       
-        <h3 style={{textAlign:'center', marginTop:125}}>Let's get you sign in</h3>
+        <h3 style={{textAlign:'center', marginBottom:50, marginTop:125}}>Let's get you sign in</h3>
         
         <br/>
         
-        <div style={{position:'relative', alignItems:'center', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+        <div style={{position:'relative', alignItems:'center', display: 'flex', justifyContent: 'center', alignItems: 'center', height:100, marginTop:100}}>
         
             <div style={{background:'#ffffff', borderRadius:10, width:180, padding:'5%', textAlign:'center'}}>
                     
-                    <form id="info"  action="" method="Post" >
+                    <form id="info"  action="/profile_page" method="Post" >
 
                         <input type="text" name="Email" id="Email" placeholder="Email" required pattern="[A-Za-z]{3,}[@]{1}[A-Za-z]{3,}[.]{1}[A-Za-z]{3}" />
                         <br/><br/>
@@ -26,7 +63,7 @@ function Login_page() {
                         <input type="text" name="password" id="password" placeholder="password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8}" />
                         <br/><br/>
 
-                        <button type="submit" style={{textAlign:'Center', width:100}}>Sign in</button>
+                        <button type="submit"  style={{textAlign:'Center', width:100}}>Sign in</button>
                     </form>
                 
                 

@@ -1,6 +1,30 @@
 import Card from "./message-Cards";
 
+/*
+  Account{
+    C.A_ID:""
+    email:""
+    userName:""
+    password:""
+    conversations[
+        conversationID=#C.A_ID(person 1)#C.A_ID(person 2) {
+          messages{
+            {name message},
 
+          }
+        
+        }
+        
+
+
+    ] 
+
+
+
+  }
+
+
+*/
 
 
 function ContactsWidget(props){
@@ -111,7 +135,7 @@ function ContactsWidget(props){
       ];
       
 
-    const allContacts = contact.map( contact => <Card key={contact.name} name = {contact.name} backgroundColor="#ffffff" Color='#000000' lastestTextMessage="bob" latestTextMessage= {contact.message} >
+    const allContacts = contact.map( (contact, i) => <Card key={i} name = {contact.name} backgroundColor="#ffffff" Color='#000000' lastestTextMessage="bob" latestTextMessage= {contact.message} >
 
     </Card> )
     

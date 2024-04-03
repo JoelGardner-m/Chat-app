@@ -20,13 +20,11 @@ const routes = {
   '/login': Login_page,
   '/welcome': Welcome_page,
   '/find-contacts': Find_contacts_page,
-  '/profile': Profile_page,
-  '/store': Store_page,
+  '/profile_page': Profile_page,
+  '/store_page': Store_page,
 };
 
 function App() {
-  
-  
   
   const path = window.location.pathname;
 

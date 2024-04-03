@@ -1,36 +1,69 @@
+import React, { useState, useEffect } from 'react';
 import logo  from './assets/logo 1.png'
 
-
-function Landing_page() {
+const login_page =  ()=>{
     
-    const login_page = async ()=>{
-       const nextPage =  await fetch("/login")
-        
-        
+   fetch("/login").then((res)=>{
+        if (!res.redirected) {
+            // Redirect the user to the new page
+            
+          
+            window.location.href = res.url;
+        }
 
-        return nextPage.data
+    }).catch((error)=>{
+        console.error('Error', error)
+
+
+    })
+    
+     
+     
+
+     
+ }
+ 
+function Landing_page() {
+    const [NextPage, SetNextPage] = useState()
+    useEffect(()=>{
+        switch(NextPage){
+            case "/login":
+            console.log('bob')
+            login_page()
+            break;
+        }
+
+    }, [NextPage])
+    function changePage (nextPage){
+        SetNextPage(nextPage)
     }
-
+    
 
     return (
     <>
-        <img id="logo" src={logo} alt="chat app" width={75}/> 
-
-        <div style={{ display: 'inline', marginLeft:'70%'}}>
-
-        <button style={{display: 'inline', 'background-color':'#1FEDA8', color: '#05001F', borderRadius: 5, padding:10, paddingLeft:30, paddingRight:30 }}> <b>Log in</b></button>
-        <button style={{display: 'inline', 'background-color':'#1FEDA8', color: '#05001F', borderRadius: 5, padding:10, paddingLeft:30, paddingRight:30, marginLeft:10}}> <b>features</b></button>
+        <div style={{ display: 'flex', textAlign:'center'}}>
+        
+        <img id="logo" src={logo} alt="chat app" style={{position:'fixed', width:80}} /> 
+        
+        <h1 style={{display: 'inline', position:'relative', left:'45%', width:125}}> Chat App  </h1>
+        
+        <div style={{marginLeft:'70%'}}>
+            
+            <button name='login' style={{display: 'inline', backgroundColor:'#1FEDA8', color: '#05001F', borderRadius: 5, padding:10, paddingLeft:30, paddingRight:30, marginTop:20 }} onClick={()=>{changePage("/login")} }> <b>Log in</b></button>
+            <button name = 'picture' style={{display: 'inline', backgroundColor:'#1FEDA8', color: '#05001F', borderRadius: 5, padding:10, paddingLeft:30, paddingRight:30, marginLeft:10}}> <b>features</b></button>
 
         </div>
+        </div>
 
-            <div style={{ 'text-align' :'center', 'margin-top': '5%', fontSize:'125%-width', 'text-shadow': '5px 5px 10px hsl(90, 100%, 0%)'}}>
-            <h1> Chat App 
-            <br/>Fostering Friendships, 
-            <br/>Fueling Businesses: 
+            <div style={{ textAlign :'center', marginTop: '8%', fontSize:'205%-width', textShadow: '5px 5px 10px hsl(90, 100%, 0%)'}}>
+            
+            <h2>
+            Fostering Friendships, 
+            Fueling Businesses: 
             <br/>a place Where Trust Thrives and Collaborations Soar.
-            </h1>
+            </h2>
         
-            <button style={{backgroundColor:'#1FEDA8', color: '#05001F', borderRadius:20, marginLeft: '0', marginTop: 20 , padding:10, paddingLeft:100, paddingRight:100}}> <b>Log in</b></button>
+            <button style={{backgroundColor:'#1FEDA8', color: '#05001F', borderRadius:20, marginLeft: '0', marginTop: 20 , padding:10, paddingLeft:100, paddingRight:100}} onClick={()=>{changePage("/login")} } > <b>Log in</b></button>
 
         </div>
     

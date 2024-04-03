@@ -2,6 +2,15 @@ import logo  from './assets/logo 1.png'
 
 
 function Landing_page() {
+    
+    const login_page = async ()=>{
+       const nextPage =  await fetch("/login")
+        
+        
+
+        return nextPage.data
+    }
+
 
     return (
     <>

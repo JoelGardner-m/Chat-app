@@ -1,29 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import logo  from './assets/logo 1.png'
 
-const login_page =  ()=>{
-    
-   fetch("/login").then((res)=>{
-        if (!res.redirected) {
-            // Redirect the user to the new page
-            
-          
-            window.location.href = res.url;
-        }
 
-    }).catch((error)=>{
-        console.error('Error', error)
-
-
-    })
-    
-     
-     
-
-     
- }
  
 function Landing_page() {
+    const login_page =  ()=> {
+    
+        fetch("/login").then((res)=>{
+             if (!res.redirected) {
+                 // Redirect the user to the new page
+                 
+               
+                 window.location.href = res.url;
+             }
+     
+         }).catch((error)=>{
+             console.error('Error', error)
+     
+     
+         })
+         
+          
+          
+     
+          
+      }
+      
     const [NextPage, SetNextPage] = useState()
     useEffect(()=>{
         switch(NextPage){

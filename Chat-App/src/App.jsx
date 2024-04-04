@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import Landing_page from './Landing_page'
 import Login_page from './login_page'
 import Welcome_page from './Welcome_page'
@@ -15,8 +15,10 @@ Landing_page
  Profile 
  Store 
 */
+
+
 const routes = {
-  '/': Landing_page,
+  
   '/login': Login_page,
   '/welcome': Welcome_page,
   '/find-contacts': Find_contacts_page,
@@ -25,22 +27,51 @@ const routes = {
   
 };
 
-const NotFound= ()=>{
 
-  return(<p>NotFound</p>)
-}
 
 function App() {
+  const routeName = [
+ 
+    '/login',
+    '/welcome',
+    '/find-contacts',
+    '/profile_page',
+    '/store_page',
+  ];
   
+  const routeComps = [ 
+    Login_page,
+    Welcome_page,
+    Find_contacts_page,
+    Profile_page,
+    Store_page,
+  ];
+  const Routecomp = routeName.map( (route, i) => <Route key={i} path={route} Component={routeComps[i]}/>)  
   const path = window.location.pathname;
-
-  const Component = routes[path] || NotFound;
   
+  
+  const NotFound= ()=>{
+
+    return(<p>NotFound</p>)
+  }
+  const Component = routes[path] || NotFound
+  
+  
+  
+  
+  
+  {Routecomp}
+  console.log('bob' )
   return (
-    <Router>
-      <div>
-      <Component/>
-      </div>
+    <Router  >
+      <Routes>
+      <Route path='/' Component={Login_page}/>
+      
+      
+      
+      
+      </Routes>
+     
     </Router>
   );
   

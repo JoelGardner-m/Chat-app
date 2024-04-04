@@ -6,8 +6,8 @@ const port = 5000
 app.use(Cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('./public'))
-
+app.use(express.static('./Chat-App/dist'))
+ 
 /*
 Account{
     C.A_ID:""
@@ -37,9 +37,14 @@ Account{
 
 */
 
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'Chat-App/dist', 'index.html'));
+  console.log(req)
+});
 
-app.get("/", (req, res)=>{
-  res.send("helloe")
+app.get('/login', (req,res) =>{
+  res.sendFile(path.join(__dirname, 'Chat-App/dist', 'index.html'));
+  console.log(req)
 
 })
 

@@ -1,5 +1,6 @@
 const express = require('express');
 const Cors = require('cors')
+const path = require('path')
 const { readOneDocument, readAllDocuments, checkIfUserExists, insertOneDocument, updateOneDocument, deleteOneDocument }= require('./Particpants-DBRequest')
 const app = express()
 const port = 5000
@@ -15,6 +16,8 @@ Account{
     userName:""
     password:""
     profileConfig:{
+        profileFindablity: bool
+        SearchBy: ways that people can find you{ interest, hobby, profision}
         backgroundColor: ""
         profilePicture:""
         contacts:[]
@@ -36,15 +39,60 @@ Account{
   }
 
 */
+app.get('*', (req, res)=>{
+  const filepath = path.join(__dirname, 'Chat-App/dist', 'index.html')
+  res.sendFile(filepath)
+  console.log(filepath)
+})
+/*
+app.get('/profile_page', (req, res)=>{
+  const filepath = path.join(__dirname, 'Chat-App/dist', 'index.html')
+  res.sendFile(filepath)
+  console.log(filepath)
+})*/
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'Chat-App/dist', 'index.html'));
-  console.log(req)
+app.get('/checkCreditials', async (req,res)=>{
+  const info = req.body;
+  const {email,name,password} = req.body;
+  const User_existence =  await checkIfUserExists(name)
+  
+  if (User_existence ){
+    return res.status(200).json({success:true, message: "Login in"});
+    
+  }
+  return res.status(200).json({success:true, message, data:{}})
+
+})
+
+app.post('/CreateAccount', async (req, res)=>{
+  const info = req.body;
+  const {email,name,password} = req.body;
+  const User_existence =  await checkIfUserExists(name)
+  
+  if (User_existence ){
+    return res.status(200).json({success:false, message: "Account has already been made"});
+    
+  }
+  //insertOneDocument()
+  return res.status(200).json({success:true, message: "successfully created a new Account", data:{}})
+
+} )
+
+
+app.get('/login', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-app.get('/login', (req,res) =>{
-  res.sendFile(path.join(__dirname, 'Chat-App/dist', 'index.html'));
+
+app.get('/all', (req,res) =>{
+  res.send('op')
   console.log(req)
+
+})
+
+app.get('/Explore_page/catgoty:', (req,res)=>{
+
+
 
 })
 
@@ -59,15 +107,7 @@ app.get('/api/users', (req, res)=>{
 })
 
 app.post('/signin', async (req, res) => {
-  const info = req.body;
-  const {email,name} = req.body;
-  const User_existence =  await checkIfUserExists(name)
   
-  if (User_existence  ){
-    return res.status(200).json({success:false, message: "username is already taken"});
-    
-  }
-  return res.status(200).json({success:true, data:{}})
     
 });
 

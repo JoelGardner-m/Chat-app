@@ -18,7 +18,7 @@ Landing_page
 
 
 const routes = {
-  
+  '/':Welcome_page,
   '/login': Login_page,
   '/welcome': Welcome_page,
   '/find-contacts': Find_contacts_page,
@@ -30,49 +30,39 @@ const routes = {
 
 
 function App() {
-  const routeName = [
- 
-    '/login',
-    '/welcome',
-    '/find-contacts',
-    '/profile_page',
-    '/store_page',
-  ];
-  
-  const routeComps = [ 
-    Login_page,
-    Welcome_page,
-    Find_contacts_page,
-    Profile_page,
-    Store_page,
-  ];
-  const Routecomp = routeName.map( (route, i) => <Route key={i} path={route} Component={routeComps[i]}/>)  
+  function ends (){
+    const url = window.location.href;
+    const parts = url.split('/');
+    const lastParam = parts[parts.length - 1];
+    const end = lastParam;
+
+    return end
+  }
+
   const path = window.location.pathname;
-  
-  
   const NotFound= ()=>{
 
     return(<p>NotFound</p>)
   }
   const Component = routes[path] || NotFound
   
-  
-  
-  
-  
-  {Routecomp}
-  console.log('bob' )
+
   return (
-    <Router  >
+    <>
+    <Router basename='/'>
       <Routes>
-      <Route path='/' Component={Login_page}/>
-      
-      
-      
-      
+      <Component/>
+
       </Routes>
      
     </Router>
+   
+
+    
+    
+    </>
+     
+   
   );
   
 }

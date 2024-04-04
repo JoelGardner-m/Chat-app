@@ -166,6 +166,7 @@ function ContactsWidget(props){
 
 function ProfileinfoWidget(props){
     const viewportHeight = props.viewportHeight;
+    
     return (
         <>
         <div style={ {  display: 'flex', alignItems : 'flex-start', backgroundColor:'#707070', width:'80%', height:viewportHeight, textAlign:'center' } }>
@@ -294,9 +295,14 @@ function CoversationWidget(props){
   
 }
 
-function Profile(){
+function fetch_id(){
+  fetch('/api/user')
+
+}
+
+function Profile(props){
     const viewportHeight = window.innerHeight;
-    
+    const profile_ID = props.profile_ID
     
     return (
         <>

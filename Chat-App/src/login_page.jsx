@@ -43,16 +43,12 @@ const profile_page =  ()=>{
          console.error('Error', error)
  
  
-     })
-     
-      
-      
- 
-      
+     }) 
   }
   
 
-function Login_page() {
+function Login_page(props) {
+    const SetUser = props.setuser
     const [NextPage, SetNextPage] = useState()
     useEffect(()=>{
         switch(NextPage){

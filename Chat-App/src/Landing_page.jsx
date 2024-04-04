@@ -1,45 +1,17 @@
 import React, { useState, useEffect } from 'react';
+
 import logo  from './assets/logo 1.png'
 
 
  
-function Landing_page() {
-    const login_page =  ()=> {
+function Landing_page(props) {
+    const Locations = props.Locations
+    const pageChange = props.SwitchPage
     
-        fetch("/login").then((res)=>{
-             if (!res.redirected) {
-                 // Redirect the user to the new page
-                 
-               
-                 window.location.href = res.url;
-             }
-     
-         }).catch((error)=>{
-             console.error('Error', error)
-     
-     
-         })
-         
-          
-          
-     
-          
-      }
-      
-    const [NextPage, SetNextPage] = useState()
-    useEffect(()=>{
-        switch(NextPage){
-            case "/login":
-            console.log('bob')
-            login_page()
-            break;
-        }
+    function NP(){
+        
 
-    }, [NextPage])
-    function changePage (nextPage){
-        SetNextPage(nextPage)
     }
-    
 
     return (
     <>
@@ -51,7 +23,7 @@ function Landing_page() {
         
         <div style={{marginLeft:'70%'}}>
             
-            <button name='login' style={{display: 'inline', backgroundColor:'#1FEDA8', color: '#05001F', borderRadius: 5, padding:10, paddingLeft:30, paddingRight:30, marginTop:20 }} onClick={()=>{changePage("/login")} }> <b>Log in</b></button>
+            <button name='login' style={{display: 'inline', backgroundColor:'#1FEDA8', color: '#05001F', borderRadius: 5, padding:10, paddingLeft:30, paddingRight:30, marginTop:20 }} onClick={()=>{pageChange("/login")} }> <b>Log in</b></button>
             <button name = 'picture' style={{display: 'inline', backgroundColor:'#1FEDA8', color: '#05001F', borderRadius: 5, padding:10, paddingLeft:30, paddingRight:30, marginLeft:10}}> <b>features</b></button>
 
         </div>
@@ -65,7 +37,7 @@ function Landing_page() {
             <br/>a place Where Trust Thrives and Collaborations Soar.
             </h2>
         
-            <button style={{backgroundColor:'#1FEDA8', color: '#05001F', borderRadius:20, marginLeft: '0', marginTop: 20 , padding:10, paddingLeft:100, paddingRight:100}} onClick={()=>{changePage("/login")} } > <b>Log in</b></button>
+            <button style={{backgroundColor:'#1FEDA8', color: '#05001F', borderRadius:20, marginLeft: '0', marginTop: 20 , padding:10, paddingLeft:100, paddingRight:100}} onClick={()=>{pageChange("/login")} } > <b>Log in</b></button>
 
         </div>
     

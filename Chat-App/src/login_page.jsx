@@ -1,5 +1,29 @@
 import React, { useState, useEffect } from 'react';
+/*
+  Account{
+    C.A_ID:""
+    email:""
+    userName:""
+    password:""
+    conversations: [
+        conversationID #C.A_ID(person 1)#C.A_ID(person 2): {
+          messages:[
+            messgae:{name messag,date:'9/20/2024',time:'12:30pm'e},
 
+          ]
+        
+        }
+        
+
+
+    ] 
+
+
+
+  }
+
+
+*/
 
 const profile_page =  ()=>{
     
@@ -48,7 +72,7 @@ function Login_page() {
         
         <br/>
         
-        <div style={{position:'relative', alignItems:'center', display: 'flex', justifyContent: 'center', alignItems: 'center', height:100, marginTop:100}}>
+        <div style={{position:'relative', alignItems:'center', display: 'flex', justifyContent: 'center', height:100, marginTop:100}}>
         
             <div style={{background:'#ffffff', borderRadius:10, width:180, padding:'5%', textAlign:'center'}}>
                     

@@ -22,18 +22,24 @@ const routes = {
   '/find-contacts': Find_contacts_page,
   '/profile_page': Profile_page,
   '/store_page': Store_page,
+  
 };
+
+const NotFound= ()=>{
+
+  return(<p>NotFound</p>)
+}
 
 function App() {
   
   const path = window.location.pathname;
 
   const Component = routes[path] || NotFound;
-
+  
   return (
     <Router>
       <div>
-        <Component/>
+      <Component/>
       </div>
     </Router>
   );

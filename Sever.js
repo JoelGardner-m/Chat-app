@@ -1,11 +1,41 @@
 const express = require('express');
 const Cors = require('cors')
-const { readOneDocument, readAllDocuments, checkIfUserExists, insertOneDocument, updateOneDocument, deleteOneDocument }= require('./Chat-App/src/Particpants-DBRequest')
+const { readOneDocument, readAllDocuments, checkIfUserExists, insertOneDocument, updateOneDocument, deleteOneDocument }= require('./Particpants-DBRequest')
 const app = express()
-
+const port = 5000
 app.use(Cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static('./public'))
+
+/*
+Account{
+    C.A_ID:""
+    email:""
+    userName:""
+    password:""
+    profileConfig:{
+        backgroundColor: ""
+        profilePicture:""
+        contacts:[]
+        conversations: [
+            conversationID #C.A_ID(person 1)#C.A_ID(person 2): {
+                messages:[
+                    messgae:{name messag,date:'9/20/2024',time:'12:30pm'e},
+
+                ]
+            
+            }
+
+        ] 
+        }
+    
+
+
+
+  }
+
+*/
 
 
 app.get("/", (req, res)=>{
@@ -52,4 +82,4 @@ app.post('/api/v1/user',async (req, res) => {
 })
 
 
-app.listen(5173, console.log('active port on 5000'));
+app.listen(port, console.log(`active port on ${port}`));

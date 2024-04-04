@@ -5,18 +5,22 @@ import React, { useState, useEffect } from 'react';
     email:""
     userName:""
     password:""
-    conversations: [
-        conversationID #C.A_ID(person 1)#C.A_ID(person 2): {
-          messages:[
-            messgae:{name messag,date:'9/20/2024',time:'12:30pm'e},
+    profileConfig:{
+        backgroundColor: ""
+        profilePicture:""
+        contacts:[]
+        conversations: [
+            conversationID #C.A_ID(person 1)#C.A_ID(person 2): {
+                messages:[
+                    messgae:{name messag,date:'9/20/2024',time:'12:30pm'e},
 
-          ]
-        
+                ]
+            
+            }
+
+        ] 
         }
-        
-
-
-    ] 
+    
 
 
 

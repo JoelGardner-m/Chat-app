@@ -1,14 +1,38 @@
 import Card from "./message-Cards";
 import image from "../assets/logo 1.png"
 import React, { useState, useEffect } from 'react';
+const userinfo = getUserInfo
+
 
 function getUserInfo(){
-    
+    const url = window.location.href;
+    const parts = url.split('/');
+    const lastParam = parts[parts.length - 1];
+    const user = lastParam;
+
+
+    const userInfo = fetch(`api/v1/${user}/userinfo`)
+    .then(res=> res.json())
+    .catch((error)=> console.error(error))
+    console.log(userInfo)
+    return userInfo
+}
+
+
+
+function findContact(search){
+  
+  
+  return(<div>
+
+
+  </div>)
+
 
 }
 
 function ContactsWidget(props){
-    
+    //getUserInfo()
     const viewportHeight = window.innerHeight;
     
     const contact = [

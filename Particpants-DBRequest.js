@@ -1,4 +1,4 @@
-const { MongoClient, ObjectID, ServerApiVersion } = require('mongodb');
+const { MongoClient, ObjectId, ServerApiVersion } = require('mongodb');
 
 // Connection URI
 const uri = "mongodb+srv://bob:pass@nodeexpressprojects.nwkgstn.mongodb.net/?retryWrites=true&w=majority&appName=nodeExpressProjects";
@@ -23,7 +23,7 @@ async function connectAndReturnCollection() {
 
 async function readOneDocument(id) {
   const collection = await connectAndReturnCollection();
-  const document = await collection.findOne({ _id: new ObjectID(id) });
+  const document = await collection.findOne({ _id: new ObjectId(id) });
   return document;
 }
 
@@ -31,7 +31,6 @@ async function checkIfUserExists(username) {
   const collection = await connectAndReturnCollection();
   const user = await collection.findOne({ username: `${username}` });
   const userid = user
-  console.log(user)
   return {Exist:!!user, ID: userid}; // Returns true if user exists, false otherwise
 }
 
@@ -44,7 +43,7 @@ async function insertOneDocument(data) {
 async function updateOneDocument(id, updateData) {
   const collection = await connectAndReturnCollection();
   const result = await collection.updateOne(
-    { _id: new ObjectID(id) },
+    { _id: new ObjectId(id) },
     { $set: updateData }
   );
   return result.modifiedCount > 0;
@@ -52,7 +51,7 @@ async function updateOneDocument(id, updateData) {
 
 async function deleteOneDocument(id) {
   const collection = await connectAndReturnCollection();
-  const result = await collection.deleteOne({ _id: new ObjectID(id) });
+  const result = await collection.deleteOne({ _id: new ObjectId(id) });
   return result.deletedCount > 0;
 }
 

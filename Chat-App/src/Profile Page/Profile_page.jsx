@@ -5,15 +5,8 @@ import { useParams } from 'react-router-dom'
 
 
 
-function getUserInfo(userID){
+async function getUserInfo(userID){
     
-
-
-    const userInfo = fetch(`api/v1/${userID}/userinfo`)
-    .then(res=> res.json())
-    .catch((error)=> console.error(error))
-    console.log(userInfo)
-    return userInfo
 }
 
 
@@ -295,24 +288,34 @@ function CoversationWidget(props){
 
 
 
-function Profile(props){
+function Profile(){
     const viewportHeight = window.innerHeight;
-    const profile_ID = props.profile_ID
     const {id} = useParams()
-    const userinfo = getUserInfo(id)
-    console.log(userinfo)
+    const [userinfo, setUserInfo] = useState(null)
     
+    useEffect(() => {
+      const userInfo = async ()=>{ 
+        await fetch(`/api/v1/${id}/userinfo`)
+        .then(res=> res.json())
+        .then(data=> setUserInfo(data))
+        .catch((error)=> console.error(error))
+      }
+    userInfo()
+    }, [])
+    console.log(userinfo)
      return (
-        <>
-            <div style={ {display: 'flex', alignItems : 'flex-start', height:viewportHeight }}>
-                
-            <ContactsWidget ></ContactsWidget>
-            <CoversationWidget viewportHeight={viewportHeight}/>
-
-                
-                
-
-            </div>
+        <>{ userinfo == null ? 
+             (<p>loading</p>): 
+             (
+              <div style={ {display: 'flex', alignItems : 'flex-start', height:viewportHeight }}> 
+            
+              <ContactsWidget ></ContactsWidget>
+              <CoversationWidget viewportHeight={viewportHeight}/>
+              
+              </div> 
+             )
+             
+          }
         </>
 
 

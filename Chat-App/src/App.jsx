@@ -59,7 +59,7 @@ function App() {
   }
   const Component = routes[path] || NotFound
 
-  console.log(params(2))
+  
   function newComponent(){
     if (params(2) == 'profile_page'){
       return (<Router basename='/'>

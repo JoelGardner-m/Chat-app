@@ -57,13 +57,12 @@ app.get('/login', (req, res)=>{
 app.post('/checkCreditials', async (req,res)=>{
   const info = req.body;
   const {Email,username,password} = req.body;
-  const User_existence =  await checkIfUserExists(username)
-  
+  const User_existence =  await checkIfUserExists('jake')
+  const userID = String(User_existence.ID._id)
   
   if (User_existence.Exist ){
-
-    return res.redirect(`/profile/${User_existence.ID}`)
-    //res.redirect()
+    
+    return res.status(200).redirect(`/profile_page/${userID}`)
   }
 
   return res.status(404).json({message: 'User dose not exist'})
@@ -113,11 +112,12 @@ app.get('/api/users', (req, res)=>{
 
 })
 
-app.get('api/v1/:userID/userinfo', async (req, res) => {
-  const { user } = req.params
-  const userr = req.body
-  console.log(user,userr )
-  readOneDocument(user)
+app.get('/api/v1/:userID/userinfo', async (req, res) => {
+  const { userID } = req.params
+  const userData = await readOneDocument(userID)
+  
+  console.log(userData)
+  res.json(userData)
 })
 
 

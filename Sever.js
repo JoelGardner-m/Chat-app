@@ -62,11 +62,11 @@ app.post('/checkCreditials', async (req,res)=>{
   
   if (User_existence.Exist ){
 
-    return res.status(200).json({redirectTo: `/profile/${User_existence.ID}`, success:true, message: "Login in", data:{User:username, }});
+    return res.redirect(`/profile/${User_existence.ID}`)
     //res.redirect()
   }
 
-  return res.status(200 ).json({ redirectTo: 'signup/', success:true, message: 'dose not exist', data:{email: Email, user:username, password:password}})
+  return res.status(404).json({message: 'User dose not exist'})
 
 })
 
@@ -81,7 +81,7 @@ app.post('/CreateAccount', async (req, res)=>{
   }
   
   const userNUm = insertOneDocument({email: email, name: name, password:password})
-  return res.status(200).json({ redirectTo: `/profile/${userNUm}`, success:true, message: "successfully created a new Account", data:{}})
+  return res.redirect(`/profile/${userNUm}`)
 
 })
 
@@ -113,8 +113,10 @@ app.get('/api/users', (req, res)=>{
 
 })
 
-app.get('api/v1/${userID}/userinfo', async (req, res) => {
+app.get('api/v1/:userID/userinfo', async (req, res) => {
   const { user } = req.params
+  const userr = req.body
+  console.log(user,userr )
   readOneDocument(user)
 })
 

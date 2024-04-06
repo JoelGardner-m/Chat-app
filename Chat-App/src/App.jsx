@@ -33,14 +33,24 @@ const routes = {
 
 
 function App() {
-  function ends (){
+  function params (param){
+    if (param == 'end'){
     const url = window.location.href;
     const parts = url.split('/');
     const lastParam = parts[parts.length - 1];
     const end = lastParam;
 
     return end
+    }
+    const url = window.location.href;
+    const parts = url.split('/');
+    const Param = parts[parts.length - param];
+    const parm = Param;
+
+    return parm 
+
   }
+  
 
   const path = window.location.pathname;
   const NotFound= ()=>{
@@ -49,26 +59,27 @@ function App() {
   }
   const Component = routes[path] || NotFound
 
+  console.log(params(2))
   function newComponent(){
-    if (Component === Profile_page){
-      <Route></Route>
-    }
+    if (params(2) == 'profile_page'){
+      console.log("bob")
+      return (<Router basename='/'>
+      <Routes>
+          <Route path='/profile_page/:id' Component={Profile_page} />
 
+      </Routes>
+      
+
+
+    </Router>)
+    }
+    return (<Component/>)
   }
   //
   //<p>words</p>
   return (
     <>
-    <Component/>
-    <Router>
-      <Routes>
-          <Route path='/profile/:id' Component={Profile_page} />
-
-      </Routes>
-
-
-    </Router>
-    
+    {newComponent()}
     </>
      
    

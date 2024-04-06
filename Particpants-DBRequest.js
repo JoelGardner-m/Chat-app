@@ -30,7 +30,9 @@ async function readOneDocument(id) {
 async function checkIfUserExists(username) {
   const collection = await connectAndReturnCollection();
   const user = await collection.findOne({ username: `${username}` });
-  return !!user; // Returns true if user exists, false otherwise
+  const userid = user
+  console.log(user)
+  return {Exist:!!user, ID: userid}; // Returns true if user exists, false otherwise
 }
 
 async function insertOneDocument(data) {

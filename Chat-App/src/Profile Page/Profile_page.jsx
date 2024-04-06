@@ -1,17 +1,15 @@
 import Card from "./message-Cards";
 import image from "../assets/logo 1.png"
 import React, { useState, useEffect } from 'react';
-const userinfo = getUserInfo
+import { useParams } from 'react-router-dom'
 
 
-function getUserInfo(){
-    const url = window.location.href;
-    const parts = url.split('/');
-    const lastParam = parts[parts.length - 1];
-    const user = lastParam;
+
+function getUserInfo(userID){
+    
 
 
-    const userInfo = fetch(`api/v1/${user}/userinfo`)
+    const userInfo = fetch(`api/v1/${userID}/userinfo`)
     .then(res=> res.json())
     .catch((error)=> console.error(error))
     console.log(userInfo)
@@ -32,7 +30,7 @@ function findContact(search){
 }
 
 function ContactsWidget(props){
-    //getUserInfo()
+    
     const viewportHeight = window.innerHeight;
     
     const contact = [
@@ -295,16 +293,16 @@ function CoversationWidget(props){
   
 }
 
-function fetch_id(){
-  fetch('/api/user')
 
-}
 
 function Profile(props){
     const viewportHeight = window.innerHeight;
     const profile_ID = props.profile_ID
+    const {id} = useParams()
+    const userinfo = getUserInfo(id)
+    console.log(userinfo)
     
-    return (
+     return (
         <>
             <div style={ {display: 'flex', alignItems : 'flex-start', height:viewportHeight }}>
                 

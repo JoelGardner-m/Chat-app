@@ -2,16 +2,23 @@ import React, { useState, useEffect } from 'react';
 
 import logo  from './assets/logo 1.png'
 
+function fetchSignup(){
+    fetch('/signup')
+    .then(res=> window.location.href = res.url)
 
- 
+}
+function fetchLogin(){
+    fetch('/login')
+    .then(res=> window.location.href = res.url)
+
+}
+
+
 function Landing_page(props) {
     const Locations = props.Locations
     const pageChange = props.SwitchPage
     
-    function NP(){
-        
-
-    }
+    
 
     return (
     <>
@@ -23,8 +30,10 @@ function Landing_page(props) {
         
         <div style={{marginLeft:'70%'}}>
             
-            <button name='login' style={{display: 'inline', backgroundColor:'#1FEDA8', color: '#05001F', borderRadius: 5, padding:10, paddingLeft:30, paddingRight:30, marginTop:20 }} onClick={()=>{pageChange("/login")} }> <b>Log in</b></button>
-            <button name = 'picture' style={{display: 'inline', backgroundColor:'#1FEDA8', color: '#05001F', borderRadius: 5, padding:10, paddingLeft:30, paddingRight:30, marginLeft:10}}> <b>features</b></button>
+            <button name='Signup' style={{display: 'inline', backgroundColor:'#1FEDA8', color: '#05001F', borderRadius: 5, padding:10, paddingLeft:20, paddingRight:20, marginTop:20 }} onClick={()=>{fetchLogin()} }> <b>login</b></button>
+            <button name='Signup' style={{display: 'inline', backgroundColor:'#1FEDA8', color: '#05001F', borderRadius: 5, padding:10, paddingLeft:20, paddingRight:20, marginTop:20 }} onClick={()=>{fetchSignup()} }> <b>Sign up</b></button>
+            
+            <button name = 'picture' style={{display: 'inline', backgroundColor:'#1FEDA8', color: '#05001F', borderRadius: 5, padding:10, paddingLeft:20, paddingRight:20}}> <b>features</b></button>
 
         </div>
         </div>
@@ -37,7 +46,7 @@ function Landing_page(props) {
             <br/>a place Where Trust Thrives and Collaborations Soar.
             </h2>
         
-            <button style={{backgroundColor:'#1FEDA8', color: '#05001F', borderRadius:20, marginLeft: '0', marginTop: 20 , padding:10, paddingLeft:100, paddingRight:100}} onClick={()=>{pageChange("/login")} } > <b>Log in</b></button>
+            <button style={{backgroundColor:'#1FEDA8', color: '#05001F', borderRadius:20, marginLeft: '0', marginTop: 20 , padding:10, paddingLeft:100, paddingRight:100}} onClick={()=>{fetchSignup()} } > <b>Sign up</b></button>
 
         </div>
     

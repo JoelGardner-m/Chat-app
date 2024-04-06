@@ -1,13 +1,15 @@
 const express = require('express');
 const Cors = require('cors')
 const path = require('path')
-const { readOneDocument, readAllDocuments, checkIfUserExists, insertOneDocument, updateOneDocument, deleteOneDocument }= require('./Particpants-DBRequest')
+const { readOneDocument, readAllDocuments, checkIfUserExists, insertOneDocument, updateOneDocument, deleteOneDocument }= require('./Particpants-DBRequest');
+
 const app = express()
 const port = 5000
+
 app.use(Cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('./Chat-App/dist'))
+app.use(express.static('/workspaces/Chat-app/Chat-App/dist'))
  
 /*
 Account{
@@ -39,28 +41,32 @@ Account{
   }
 
 */
-app.get('*', (req, res)=>{
-  const filepath = path.join(__dirname, 'Chat-App/dist', 'index.html')
-  res.sendFile(filepath)
-  console.log(filepath)
-})
-/*
-app.get('/profile_page', (req, res)=>{
-  const filepath = path.join(__dirname, 'Chat-App/dist', 'index.html')
-  res.sendFile(filepath)
-  console.log(filepath)
-})*/
 
-app.get('/checkCreditials', async (req,res)=>{
-  const info = req.body;
-  const {email,name,password} = req.body;
-  const User_existence =  await checkIfUserExists(name)
+app.get('/', (req, res)=>{
+  const filepath = path.join(__dirname, 'Chat-App/dist', 'index.html')
+  res.sendFile(filepath)
+ 
+})
+
+app.get('/login', (req, res)=>{
+  const filepath = path.join(__dirname, 'Chat-App/dist', 'index.html')
+  res.sendFile(filepath)
   
-  if (User_existence ){
-    return res.status(200).json({success:true, message: "Login in"});
-    
+})
+
+app.post('/checkCreditials', async (req,res)=>{
+  const info = req.body;
+  const {Email,user,password} = req.params;
+  const User_existence =  await checkIfUserExists(user)
+  
+  console.log(User_existence,user)
+  if (User_existence.Exist ){
+
+    return res.status(200).json({redirectTo: `/profile/${User_existence.ID}`, success:true, message: "Login in", data:{User:user, }});
+    //res.redirect()
   }
-  return res.status(200).json({success:true, message, data:{}})
+
+  return res.status(200 ).json({ redirectTo: 'signup/', success:true, message: 'dose not exist', data:{email: Email, user:user, password:password}})
 
 })
 
@@ -69,35 +75,36 @@ app.post('/CreateAccount', async (req, res)=>{
   const {email,name,password} = req.body;
   const User_existence =  await checkIfUserExists(name)
   
-  if (User_existence ){
+  if (User_existence){
     return res.status(200).json({success:false, message: "Account has already been made"});
     
   }
-  //insertOneDocument()
-  return res.status(200).json({success:true, message: "successfully created a new Account", data:{}})
+  
+  const userNUm = insertOneDocument({email: email, name: name, password:password})
+  return res.status(200).json({ redirectTo: `/profile/${userNUm}`, success:true, message: "successfully created a new Account", data:{}})
 
-} )
+})
 
+app.get('/signup', (req, res) => { 
+  const filepath = path.join(__dirname, 'Chat-App/dist', 'index.html')
+  res.sendFile(filepath)
 
-app.get('/login', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+})
+
+app.post('/signin', async (req, res) => {
+  const filepath = path.join(__dirname, 'Chat-App/dist', 'index.html')
+  res.sendFile(filepath)
+    
 });
 
-
-app.get('/all', (req,res) =>{
-  res.send('op')
-  console.log(req)
+app.get('/profile_page/:id', (req, res) => {
+  const filepath = path.join(__dirname, 'Chat-App/dist', 'index.html')
+  res.sendFile(filepath)
 
 })
 
 app.get('/Explore_page/catgoty:', (req,res)=>{
 
-
-
-})
-
-app.get('/api', (req, res) => {
-  res.send('accessing api')
 })
 
 app.get('/api/users', (req, res)=>{
@@ -106,24 +113,9 @@ app.get('/api/users', (req, res)=>{
 
 })
 
-app.post('/signin', async (req, res) => {
-  
-    
-});
-
-app.patch('/:id',(req, res) => {
-    res.send(`<p>success</p>`)
-
-})
-
-app.post('/api/v1/user',async (req, res) => {
-  
-  
-
-  
-
-
-
+app.get('api/v1/${userID}/userinfo', async (req, res) => {
+  const { user } = req.params
+  readOneDocument(user)
 })
 
 

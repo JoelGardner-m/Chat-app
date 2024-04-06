@@ -28,8 +28,8 @@ import React, { useState, useEffect } from 'react';
 
 
 */
-async function validateCredial (){
-    return await fetch('/checkCreditials',{
+async function CreateAccount (){
+    return await fetch('/CreateAccount',{
         method:'POST',
         headers:{
             'Content-Type': 'appilcation/json'
@@ -64,7 +64,7 @@ const profile_page =  ()=>{
   }
   
 
-function Login_page(props) {
+function Sign_in_page(props) {
     const SetUser = props.setuser
     
    
@@ -82,9 +82,10 @@ function Login_page(props) {
         
             <div style={{background:'#ffffff', borderRadius:10, width:180, padding:'5%', textAlign:'center'}}>
                     
-                    <form id="info" action='/checkCreditials' method='post'>
-
+                    <form id="info" action='/CreateAccount' method='post'>
                         
+                        <input type="text" name="Email" id="Email" placeholder="Email" required pattern="[A-Za-z]{3,}[@]{1}[A-Za-z]{3,}[.]{1}[A-Za-z]{3}" />
+                        <br/><br/>
 
                         <input type="text" name="username" id="username" placeholder="username" />
                         <br/><br/>
@@ -92,7 +93,7 @@ function Login_page(props) {
                         <input type="text" name="password" id="password" placeholder="password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8}" />
                         <br/><br/>
 
-                        <button type="submit" onClick={ ()=> [validateCredial()] } style={{textAlign:'Center', width:100}}>Sign in</button>
+                        <button type="submit" onClick={ ()=> [CreateAccount()] } style={{textAlign:'Center', width:100}}>Sign in</button>
                     </form>
                 
                 
@@ -105,4 +106,4 @@ function Login_page(props) {
     )
   }
   
-  export default Login_page
+  export default Sign_in_page

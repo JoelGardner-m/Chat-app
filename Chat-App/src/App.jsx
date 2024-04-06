@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import Landing_page from './Landing_page'
 import Login_page from './login_page'
+import Sign_in_page from './Sign_in';
 import Welcome_page from './Welcome_page'
 import Find_contacts_page from './find_contact_page'
 import Profile_page from './Profile Page/Profile_page'
@@ -18,11 +19,13 @@ Landing_page
 
 
 const routes = {
-  '/':Welcome_page,
+  '':Landing_page,
+  '/':Landing_page,
   '/login': Login_page,
+  '/signup': Sign_in_page,
   '/welcome': Welcome_page,
   '/find-contacts': Find_contacts_page,
-  '/profile_page': Profile_page,
+  '/profile_page/': Profile_page,
   '/store_page': Store_page,
   
 };
@@ -45,20 +48,26 @@ function App() {
     return(<p>NotFound</p>)
   }
   const Component = routes[path] || NotFound
-  
 
+  function newComponent(){
+    if (Component === Profile_page){
+      <Route></Route>
+    }
+
+  }
+  //
+  //<p>words</p>
   return (
     <>
-    <Router basename='/'>
+    <Component/>
+    <Router>
       <Routes>
-      <Component/>
+          <Route path='/profile/:id' Component={Profile_page} />
 
       </Routes>
-     
-    </Router>
-   
 
-    
+
+    </Router>
     
     </>
      

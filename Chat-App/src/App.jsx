@@ -62,7 +62,6 @@ function App() {
   console.log(params(2))
   function newComponent(){
     if (params(2) == 'profile_page'){
-      console.log("bob")
       return (<Router basename='/'>
       <Routes>
           <Route path='/profile_page/:id' Component={Profile_page} />

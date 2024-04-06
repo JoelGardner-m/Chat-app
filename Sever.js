@@ -56,17 +56,17 @@ app.get('/login', (req, res)=>{
 
 app.post('/checkCreditials', async (req,res)=>{
   const info = req.body;
-  const {Email,user,password} = req.params;
-  const User_existence =  await checkIfUserExists(user)
+  const {Email,username,password} = req.body;
+  const User_existence =  await checkIfUserExists(username)
   
-  console.log(User_existence,user)
+  
   if (User_existence.Exist ){
 
-    return res.status(200).json({redirectTo: `/profile/${User_existence.ID}`, success:true, message: "Login in", data:{User:user, }});
+    return res.status(200).json({redirectTo: `/profile/${User_existence.ID}`, success:true, message: "Login in", data:{User:username, }});
     //res.redirect()
   }
 
-  return res.status(200 ).json({ redirectTo: 'signup/', success:true, message: 'dose not exist', data:{email: Email, user:user, password:password}})
+  return res.status(200 ).json({ redirectTo: 'signup/', success:true, message: 'dose not exist', data:{email: Email, user:username, password:password}})
 
 })
 

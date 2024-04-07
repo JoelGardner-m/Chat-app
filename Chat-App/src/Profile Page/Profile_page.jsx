@@ -3,27 +3,8 @@ import image from "../assets/logo 1.png"
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom'
 
-
-
-async function getUserInfo(userID){
-    
-}
-
-
-
-function findContact(search){
-  
-  
-  return(<div>
-
-
-  </div>)
-
-
-}
-
 function ContactsWidget(props){
-    
+    const message_widget = props.message_widget 
     const viewportHeight = window.innerHeight;
     
     const contact = [
@@ -127,20 +108,38 @@ function ContactsWidget(props){
           name: "Charlotte",
           message: "Hi friend! How about a weekend getaway to the countryside? It'll be refreshing and peaceful!"
         }
-      ];
+    ];
       
+    function filterBy() {
+        const serachby = document.getElementById("sort_contact_list") != null ? document.getElementById("sort_contact_list").value : ""
+        return serachby
+    }
+    
+    const [sortconvo, setsortconvo] = useState(contact)
+    
+    function change(){
+      setsortconvo(filterBy === null ? contact : contact.filter(conversation => conversation.name.toLowerCase().startsWith(filterBy().toLowerCase())))
 
-    const allContacts = contact.map( (contact, i) => <Card key={i} name = {contact.name} backgroundColor="#ffffff" Color='#000000' lastestTextMessage="bob" latestTextMessage= {contact.message} >
+    }
+    
+    const allContacts = sortconvo.map( (contact, i) => <Card key={i} name = {contact.name} converstion_id={contact.id} messages={message_widget} backgroundColor="#ffffff" Color='#000000'  latestTextMessage= {contact.message}  >
 
     </Card> )
     
     return (
         <>
     
-        <div style={ {display: 'inline-block', backgroundColor:'#20ffff', width:'20%', height:viewportHeight, boxShadow:'5px 0px 10px hsl(200,30%,60%)' } }>
-
+        <div  style={ {display: 'inline-block', backgroundColor:'#20ffff', width:'20%', height:viewportHeight, boxShadow:'5px 0px 10px hsl(200,30%,60%)' } }>
+                
                 <div style={ {height:viewportHeight, overflow: 'auto'} }>
                 <br />
+                <div action="" method="get" style={{textAlign:'center'}}>
+                
+                  <input id="sort_contact_list" type="text" onChange={()=>change()}  placeholder="search contact list"/>
+                  
+                </div>
+                <br />
+                
                 {allContacts}
                     
                     
@@ -151,43 +150,39 @@ function ContactsWidget(props){
 
         </>
     )
-
+    
 }
 
-
 function ProfileinfoWidget(props){
-    const viewportHeight = props.viewportHeight;
+  const viewportHeight = props.viewportHeight;
     
-    return (
-        <>
-        <div style={ {  display: 'flex', alignItems : 'flex-start', backgroundColor:'#707070', width:'80%', height:viewportHeight, textAlign:'center' } }>
-                      <div  >
+  return (<>
+                  <div style={ {  display: 'flex', alignItems : 'flex-start', backgroundColor:'#707070', width:'80%', height:viewportHeight, textAlign:'center' } }>
+                      <div>
                         <div name='settings'style={ { backgroundColor:'#ffff00', height:60, width:60,marginLeft:20, marginTop:20, borderRadius:10 } }></div>
                         <div name='store'style={ { backgroundColor:'#ffffff', height:60, width:60,marginLeft:20, marginTop:20   } }></div>
-                    
+                        <div name='Explore'style={ { backgroundColor:'#704f80', height:60, width:60,marginLeft:20, marginTop:20   } }></div>
+                        
                         </div>  
                         
-                    <div style={{width: '40%'}}>
+                      <div style={{width: '40%'}}>
 
                         <div name='profile picture' style={ { backgroundColor:'#ffffff', height:viewportHeight/2, width:'150%', marginLeft:'25%', marginRight:'25%' } }>
                             <img src={image} alt="" width={200} style={{borderRadius:100, marginTop:'30px'}}/>
 
                         </div>
+                        
                         <div name='profile bio'style={ { backgroundColor:'#ffffff', height:viewportHeight/2, width:'135%', marginLeft:'33%', marginRight:'25%' } }>bio</div>
+                    
                     </div>
                 </div>
-                </>
-    )
+            </>
+  )
     
 
   
 }
 
-
-function messageLog(name, message){
-
-    return {name:name, message:message}
-}
 
 function getconversation(coversaion_id){
 
@@ -205,11 +200,13 @@ function getconversation(coversaion_id){
         { name: 'Emily', message: 'Sounds magical! How was your overall experience, Alex? Would you go again?',date:'9/20/2024',time:'12:45pm' },
         { name: 'Alex', message: 'Absolutely! Arizona has so much to offer. The landscapes, the people, the adventures – I\'d go back in a heartbeat.', date:'9/20/2024',time:'12:55pm' }
       ];
+      
       return conversation
 }
-
+getconversation()
 function CoversationWidget(props){
     const viewportHeight = props.viewportHeight;
+    const backtoprofile_page = props.profilepage
     const username = 'Emily'
     const messages = getconversation()
     const latestMessage = messages[messages.length-1]
@@ -253,14 +250,14 @@ function CoversationWidget(props){
     return (
         <>
         <div style={ { alignItems : 'flex-start', backgroundColor:'#40809039', width:'80%', height:viewportHeight } }>
-        
+            <button style={ {borderRadius:50, backgroundColor:'#469846'} } onClick={ ()=> backtoprofile_page('profile')}> <img src='' alt="ProfilePage" /> </button>
             <div style={ {height:viewportHeight, overflow: 'auto'} }>
                 <br />
                 <ul>
                 {conserstion_display}   
                 </ul>
                 
-                <div style={{position:'fixed', top:viewportHeight-50, left:450}}>
+                <div style={{position:'fixed', height: viewportHeight-50, left:450}}>
                   <form id='message' action="" method="post">
                   <textarea 
                     className="input"
@@ -292,7 +289,7 @@ function Profile(){
     const viewportHeight = window.innerHeight;
     const {id} = useParams()
     const [userinfo, setUserInfo] = useState(null)
-    
+    /*
     useEffect(() => {
       const userInfo = async ()=>{ 
         await fetch(`/api/v1/${id}/userinfo`)
@@ -302,19 +299,47 @@ function Profile(){
       }
     userInfo()
     }, [])
-    console.log(userinfo)
-     return (
-        <>{ userinfo == null ? 
+    */
+    const [widget, setWidget] = useState('profile')
+    const [currentwidget, setCurrentWidget] = useState(<ProfileinfoWidget viewportHeight={viewportHeight}/>)
+    function change_widget(widget){
+      setWidget(widget)
+
+    }
+
+    useEffect(()=>{
+      switch(widget){
+        case 'profile':
+          setCurrentWidget(<ProfileinfoWidget viewportHeight={viewportHeight}/>)
+          break;
+        case 'conversation':
+          setCurrentWidget(<CoversationWidget viewportHeight={viewportHeight} profilepage={setWidget}/>)
+        break;
+
+      }
+
+    }, [widget])
+    
+
+    function me(contact_id){
+        console.log(contact_id)
+        setWidget('conversation')
+
+    }
+    
+    return (
+        <>
+        
+        { userinfo != null ? 
              (<p>loading</p>): 
              (
               <div style={ {display: 'flex', alignItems : 'flex-start', height:viewportHeight }}> 
-            
-              <ContactsWidget ></ContactsWidget>
-              <CoversationWidget viewportHeight={viewportHeight}/>
+              <ContactsWidget message_widget={me}></ContactsWidget>
+              {currentwidget}
               
               </div> 
              )
-             
+             //
           }
         </>
 

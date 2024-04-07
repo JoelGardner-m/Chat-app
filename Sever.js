@@ -10,37 +10,69 @@ app.use(Cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('/workspaces/Chat-app/Chat-App/dist'))
- 
 /*
-Account{
-    C.A_ID:""
-    email:""
-    userName:""
-    password:""
-    profileConfig:{
-        profileFindablity: bool
-        SearchBy: ways that people can find you{ interest, hobby, profision}
-        backgroundColor: ""
-        profilePicture:""
-        contacts:[]
-        conversations: [
-            conversationID #C.A_ID(person 1)#C.A_ID(person 2): {
-                messages:[
-                    messgae:{name messag,date:'9/20/2024',time:'12:30pm'e},
+const Account = {
+
+  'C.A_ID':""
+  'email':""
+  'userName':""
+  'password':""
+  'profileConfig':{
+      'profileFindablity': Boolean
+      'SearchBy': ways that people can find you{ interest, hobby, profision}
+      backgroundColor: ""
+      profilePicture:""
+      contacts:[]
+      conversations: [
+          conversationID #C.A_ID(person 1)#C.A_ID(person 2): {
+              messages:[
+                  messgae:{name messag,date:'9/20/2024',time:'12:30pm'e},
+
+              ]
+          
+          }
+
+      ] 
+      }
+  
+
+
+
+}
+
+*/
+
+
+const Account = {
+
+    'C.A_ID':"",
+    'email':"",
+    'userName':"",
+    'password':"",
+    'profileConfig':{
+        'profileFindablity': Boolean,
+        'SearchBy': {interest:{}, hobby:{}, profession:{}},
+        'backgroundColor': "",
+        'profilePicture':"",
+        'contacts':[],
+        'conversations': [
+            'conversationID' = {
+                'messages': [
+                    'messgae' = {'name': 'message','date':'9/20/2024','time':'12:30pm'},
 
                 ]
             
-            }
+              }
 
-        ] 
-        }
+          ] 
+      }
     
 
 
 
   }
 
-*/
+
 
 app.get('/', (req, res)=>{
   const filepath = path.join(__dirname, 'Chat-App/dist', 'index.html')

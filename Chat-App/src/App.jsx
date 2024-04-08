@@ -7,6 +7,7 @@ import Welcome_page from './Welcome_page'
 import Find_contacts_page from './find_contact_page'
 import Profile_page from './Profile Page/Profile_page'
 import Store_page from './Store Page/store'
+import Explore_page from './Explore_page';
 import axios from 'axios';
 /*
 Landing_page 
@@ -25,8 +26,9 @@ const routes = {
   '/signup': Sign_in_page,
   '/welcome': Welcome_page,
   '/find-contacts': Find_contacts_page,
-  '/profile_page/': Profile_page,
+  '/profile/': Profile_page,
   '/store_page': Store_page,
+  '/Explore':Explore_page
   
 };
 
@@ -61,10 +63,10 @@ function App() {
 
   
   function newComponent(){
-    if (params(2) == 'profile_page'){
+    if (params(2) == 'profile'){
       return (<Router basename='/'>
       <Routes>
-          <Route path='/profile_page/:id' Component={Profile_page} />
+          <Route path='/profile/:id' Component={Profile_page} />
 
       </Routes>
       

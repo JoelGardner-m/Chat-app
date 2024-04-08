@@ -45,7 +45,7 @@ const Account = {
 
 const Account = {
     'email':"",
-    'userName':"",
+    'username':"",
     'password':"",
     'profileConfig':{
         'profileFindablity': Boolean,
@@ -92,17 +92,20 @@ app.post('/checkCreditials', async (req,res)=>{
 
 app.post('/CreateAccount', async (req, res)=>{
   const info = req.body;
-  const {email,name,password} = req.body;
-  const User_existence =  await checkIfUserExists(name)
+  const {Email, username, password} = req.body;
+  const User_existence =  await checkIfUserExists(username)
   
-  if (User_existence){
-    return res.status(200).json({success:false, message: "Account has already been made"});
+  if (!User_existence.Exist){
     
+    if (username != null){
+      const userNUm = await insertOneDocument({...Account, email: Email, username: username, password:password})
+      const userID = String(userNUm)
+      return res.redirect(`/profile/${userID}`)
+    }
   }
+  return res.status(200).json({success:false, message: "Account has already been made"});
+    
   
-  const userNUm = insertOneDocument({email: email, name: name, password:password})
-  return res.redirect(`/profile/${userNUm}`)
-
 })
 
 app.get('/signup', (req, res) => { 
@@ -117,7 +120,7 @@ app.post('/signin', async (req, res) => {
     
 });
 
-app.get('/profile_page/:id', (req, res) => {
+app.get('/profile/:id', (req, res) => {
   const filepath = path.join(__dirname, 'Chat-App/dist', 'index.html')
   res.sendFile(filepath)
 
@@ -127,8 +130,10 @@ app.get('/Explore_page/catgoty:', (req,res)=>{
 
 })
 
-app.get('/api/users', (req, res)=>{
-  res.status(200).json({bob:'op', jim:'a'})
+app.get('/api/users', async (req, res)=>{
+  const all_user = await readAllDocuments()
+  
+  res.status(200).json(all_user)
 
 
 })

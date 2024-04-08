@@ -9,7 +9,7 @@ const port = 5000
 app.use(Cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('/workspaces/Chat-app/Chat-App/dist'))
+app.use(express.static('./Chat-App/dist'))
 /*
 const Account = {
 
@@ -44,8 +44,6 @@ const Account = {
 
 
 const Account = {
-
-    'C.A_ID':"",
     'email':"",
     'userName':"",
     'password':"",
@@ -55,16 +53,7 @@ const Account = {
         'backgroundColor': "",
         'profilePicture':"",
         'contacts':[],
-        'conversations': [
-            'conversationID' = {
-                'messages': [
-                    'messgae' = {'name': 'message','date':'9/20/2024','time':'12:30pm'},
-
-                ]
-            
-              }
-
-          ] 
+        'conversations':{}
       }
     
 

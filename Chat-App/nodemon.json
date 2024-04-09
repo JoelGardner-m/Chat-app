@@ -2,5 +2,5 @@
     "watch":["src"],
     "ext":"js,jsx,ts,tsx,html,json,css",
     "ignore":["node_modules, .git, dist"],
-    "exec":["npm run bulid"]
+    "exec":["npm run build"]
 }

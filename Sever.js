@@ -126,13 +126,18 @@ app.get('/profile/:id', (req, res) => {
 
 })
 
-app.get('/Explore_page/catgoty:', (req,res)=>{
+app.get('/Explore', (req,res)=>{
+  const filepath = path.join(__dirname, 'Chat-App/dist', 'index.html')
+  res.sendFile(filepath)
+})
+
+app.get('/Explore/catgoty:', (req,res)=>{
 
 })
 
 app.get('/api/users', async (req, res)=>{
   const all_user = await readAllDocuments()
-  
+  console.log(all_user)
   res.status(200).json(all_user)
 
 

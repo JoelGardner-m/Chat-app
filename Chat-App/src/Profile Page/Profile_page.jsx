@@ -153,6 +153,10 @@ function ContactsWidget(props){
     
 }
 
+function Explore(){
+  fetch('/Explore')
+      .then(res=> window.location.href = res.url)
+  }
 function ProfileinfoWidget(props){
   const viewportHeight = props.viewportHeight;
     
@@ -283,10 +287,8 @@ function CoversationWidget(props){
   
 }
 
-function Explore(){
-fetch('/Explore')
-    .then(res=> window.location.href = res.url)
-}
+
+
 function Profile(){
     const viewportHeight = window.innerHeight;
     const {id} = useParams()

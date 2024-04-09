@@ -1,7 +1,7 @@
 const express = require('express');
 const Cors = require('cors')
 const path = require('path')
-const { readOneDocument, readAllDocuments, checkIfUserExists, insertOneDocument, updateOneDocument, deleteOneDocument }= require('./Particpants-DBRequest');
+const {readOneDocument, readAllDocuments, checkIfUserExists, insertOneDocument, updateOneDocument, deleteOneDocument }= require('./Particpants-DBRequest');
 
 const app = express()
 const port = 5000
@@ -137,7 +137,7 @@ app.get('/Explore/catgoty:', (req,res)=>{
 
 app.get('/api/users', async (req, res)=>{
   const all_user = await readAllDocuments()
-  console.log(all_user)
+  
   res.status(200).json(all_user)
 
 

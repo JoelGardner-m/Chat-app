@@ -140,7 +140,7 @@ const extractuserinfo = (users)=>{
   users.forEach(user => {
 
     let userinfo = {
-      profile_pic: user.profile_pic,
+      profileimage: user.profileimage,
       username: user.username,
       bio: user.bio
 

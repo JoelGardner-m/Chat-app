@@ -134,6 +134,22 @@ app.get('/Explore', (req,res)=>{
 app.get('/Explore/catgoty:', (req,res)=>{
 
 })
+const extractuserinfo = (users)=>{
+  let extracted_data = [];
+  users.foreach(user => {
+
+    let userinfo = {
+      username: users.profile_pic,
+      username: users.username,
+      username: users.bio
+
+    }
+    
+    extracted_data.push(userinfo)
+
+  })
+  return extracted_data
+}
 
 app.get('/api/users', async (req, res)=>{
   
@@ -141,7 +157,8 @@ app.get('/api/users', async (req, res)=>{
   
   
   if (all_user != null){
-  return res.status(200).json({All_user: all_user})
+    const extracted  = extractuserinfo(all_user)
+  return res.status(200).json({All_user: extracted  })
   }
   return res.status(404)
 

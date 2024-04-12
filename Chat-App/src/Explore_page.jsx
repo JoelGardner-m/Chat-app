@@ -35,22 +35,23 @@ function ContactCard (props){
         display: 'flex',
         justifyContent: 'left',
         alignItems: 'center',
-        height: '50px',
-        width:'300px',
+        height: '56px',
+        width:'296px',
         border: '1px solid #ccc',
-        borderRadius: '16px',
-        padding:'16px',
+        borderRadius: '16px ',
+        padding:'8px 16px 24px 16px',
         margin:'8px',
-        backgroundColor:"white"}}>
+        backgroundColor:"white",
+        flow:'auto'}}>
             <img src="https://via.placeholder.com/50x50" alt="" style={{borderRadius:'50px',width:50, height:50,  marginRight:'16px'}} />
-            <strong>{username}</strong>
-            <br />
+            
             <p>
-                
-                
-                {bio.slice(0, 30)}
+                <br/>
+                <strong>{username}</strong>
+                <br/>
+                {bio.slice(0, 60)} ...
             </p>
-                
+           
            
 
     </div>

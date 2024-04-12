@@ -136,18 +136,20 @@ app.get('/Explore/catgoty:', (req,res)=>{
 })
 const extractuserinfo = (users)=>{
   let extracted_data = [];
-  users.foreach(user => {
+  
+  users.forEach(user => {
 
     let userinfo = {
-      username: users.profile_pic,
-      username: users.username,
-      username: users.bio
+      profile_pic: user.profile_pic,
+      username: user.username,
+      bio: user.bio
 
     }
     
     extracted_data.push(userinfo)
 
   })
+  
   return extracted_data
 }
 

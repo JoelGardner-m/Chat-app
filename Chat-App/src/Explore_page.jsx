@@ -8,16 +8,17 @@ async function matchuser(setdata){
             .then(res=> res.json())
             .then(data=> match = data)
                 
-    const Usermatch = await match.All_user           
+    const Usermatch = serach != "" ? await match.All_user           
     .filter((user)=>{
-    return user
+    return user 
     .username
     .toLowerCase()
     .startsWith(serach
         .toLowerCase())
 
-})
-    setdata(Usermatch)
+}) : [{username: "user not found"}]
+    console.log()
+    setdata(Usermatch.length != 0 ? Usermatch : [{username: "user not found"}] )
 }
 
 function Explore_page(){

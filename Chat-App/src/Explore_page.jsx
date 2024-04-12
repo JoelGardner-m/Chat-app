@@ -1,18 +1,23 @@
 import { useState, useEffect } from "react"
 
 
-function matchuser(setdata){ 
+async function matchuser(setdata){ 
     const serach = document.getElementById("searchUserBase").value
-    console.log(serach)
-    const all_user = fetch('/api/users')
+    let match
+    const all_user = await fetch('/api/users')
             .then(res=> res.json())
-            .then(data=> data)
-        
-    const match = all_user.filter((user)=>{
-        user.username.toLowerCase().startsWith(serach.toLowerCase())
+            .then(data=> match = data)
+                
+    const Usermatch = await match.All_user           
+    .filter((user)=>{
+    return user
+    .username
+    .toLowerCase()
+    .startsWith(serach
+        .toLowerCase())
 
-    })
-    setdata(match)
+})
+    setdata(Usermatch)
 }
 
 function Explore_page(){

@@ -136,10 +136,14 @@ app.get('/Explore/catgoty:', (req,res)=>{
 })
 
 app.get('/api/users', async (req, res)=>{
+  
   const all_user = await readAllDocuments()
   
-  res.status(200).json(all_user)
-
+  
+  if (all_user != null){
+  return res.status(200).json({All_user: all_user})
+  }
+  return res.status(404)
 
 })
 

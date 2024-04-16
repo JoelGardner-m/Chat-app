@@ -70,24 +70,48 @@ function Explore_page(){
     const [data, setData] = useState([])
     const [click, setClick] = useState(0);
     
-    const users = data.map((user, i) => <ContactCard 
+    const users = data.map((user, i) =>  <ContactCard 
                                             profileimage={user.profileimage}  
                                             username = {user.username}
                                             bio = {user.bio}
                                                             />)
 
     return (<>
-    <div>
-        <input type="text" name="search" id="searchUserBase" />
-        <input type="submit" onClick={()=> matchuser(setData)}/>
-        
+    <div >
+        <div style={{
+            display: 'flex',
+            justifyContent:'center',
+            
+        }}>
+            <div style={{
+                backgroundColor:"white",
+                borderRadius:50,
+                width:304, 
+                height: 16,  
+                padding: 8 ,
+                marginTop:24,
+                }}>
+                <input type="text" name="search" id="searchUserBase" placeholder="find some new" style={{ border:'0px none black'}} />
+                <input  type="submit" onClick={()=> matchuser(setData)} style={{border:"0px", backgroundColor:'white',position:'relative', left:50}}/>
+            </div>
 
+        </div>
+        <br/>
+
+       
+            <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center', alignItems: 'center',
+                }}>
+            {users}
+
+
+            </div>
+
+       
     </div>
-    <div>
-    {users}
-
-
-    </div>
+    
     
     </>)
 

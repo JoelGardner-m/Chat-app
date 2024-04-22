@@ -1,7 +1,7 @@
 const express = require('express');
 const Cors = require('cors')
 const path = require('path')
-const { readOneDocument, readAllDocuments, checkIfUserExists, insertOneDocument, updateOneDocument, deleteOneDocument }= require('./Particpants-DBRequest');
+const {readOneDocument, readAllDocuments, checkIfUserExists, insertOneDocument, updateOneDocument, deleteOneDocument }= require('./Particpants-DBRequest');
 
 const app = express()
 const port = 5000
@@ -9,7 +9,7 @@ const port = 5000
 app.use(Cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('/workspaces/Chat-app/Chat-App/dist'))
+app.use(express.static('./Chat-App/dist'))
 /*
 const Account = {
 
@@ -44,10 +44,8 @@ const Account = {
 
 
 const Account = {
-
-    'C.A_ID':"",
     'email':"",
-    'userName':"",
+    'username':"",
     'password':"",
     'profileConfig':{
         'profileFindablity': Boolean,
@@ -55,16 +53,7 @@ const Account = {
         'backgroundColor': "",
         'profilePicture':"",
         'contacts':[],
-        'conversations': [
-            'conversationID' = {
-                'messages': [
-                    'messgae' = {'name': 'message','date':'9/20/2024','time':'12:30pm'},
-
-                ]
-            
-              }
-
-          ] 
+        'conversations':{}
       }
     
 
@@ -103,17 +92,20 @@ app.post('/checkCreditials', async (req,res)=>{
 
 app.post('/CreateAccount', async (req, res)=>{
   const info = req.body;
-  const {email,name,password} = req.body;
-  const User_existence =  await checkIfUserExists(name)
+  const {Email, username, password} = req.body;
+  const User_existence =  await checkIfUserExists(username)
   
-  if (User_existence){
-    return res.status(200).json({success:false, message: "Account has already been made"});
+  if (!User_existence.Exist){
     
+    if (username != null){
+      const userNUm = await insertOneDocument({...Account, email: Email, username: username, password:password})
+      const userID = String(userNUm)
+      return res.redirect(`/profile/${userID}`)
+    }
   }
+  return res.status(200).json({success:false, message: "Account has already been made"});
+    
   
-  const userNUm = insertOneDocument({email: email, name: name, password:password})
-  return res.redirect(`/profile/${userNUm}`)
-
 })
 
 app.get('/signup', (req, res) => { 
@@ -128,19 +120,49 @@ app.post('/signin', async (req, res) => {
     
 });
 
-app.get('/profile_page/:id', (req, res) => {
+app.get('/profile/:id', (req, res) => {
   const filepath = path.join(__dirname, 'Chat-App/dist', 'index.html')
   res.sendFile(filepath)
 
 })
 
-app.get('/Explore_page/catgoty:', (req,res)=>{
-
+app.get('/Explore', (req,res)=>{
+  const filepath = path.join(__dirname, 'Chat-App/dist', 'index.html')
+  res.sendFile(filepath)
 })
 
-app.get('/api/users', (req, res)=>{
-  res.status(200).json({bob:'op', jim:'a'})
+app.get('/Explore/catgoty:', (req,res)=>{
 
+})
+const extractuserinfo = (users)=>{
+  let extracted_data = [];
+  
+  users.forEach(user => {
+
+    let userinfo = {
+      profileimage: user.profileimage,
+      username: user.username,
+      bio: user.bio
+
+    }
+    
+    extracted_data.push(userinfo)
+
+  })
+  
+  return extracted_data
+}
+
+app.get('/api/users', async (req, res)=>{
+  
+  const all_user = await readAllDocuments()
+  
+  
+  if (all_user != null){
+    const extracted  = extractuserinfo(all_user)
+  return res.status(200).json({All_user: extracted  })
+  }
+  return res.status(404)
 
 })
 

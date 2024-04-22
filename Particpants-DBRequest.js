@@ -63,8 +63,8 @@ async function readAllDocuments() {
 
 const readalldocs = async ()=>{
   const docs = await readAllDocuments()
-  console.log(docs)
-
+  
+  return docs
 } 
 
 

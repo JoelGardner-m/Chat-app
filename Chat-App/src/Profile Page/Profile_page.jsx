@@ -153,6 +153,10 @@ function ContactsWidget(props){
     
 }
 
+function Explore(){
+  fetch('/Explore')
+      .then(res=> window.location.href = res.url)
+  }
 function ProfileinfoWidget(props){
   const viewportHeight = props.viewportHeight;
     
@@ -161,7 +165,7 @@ function ProfileinfoWidget(props){
                       <div>
                         <div name='settings'style={ { backgroundColor:'#ffff00', height:60, width:60,marginLeft:20, marginTop:20, borderRadius:10 } }></div>
                         <div name='store'style={ { backgroundColor:'#ffffff', height:60, width:60,marginLeft:20, marginTop:20   } }></div>
-                        <div name='Explore'style={ { backgroundColor:'#704f80', height:60, width:60,marginLeft:20, marginTop:20   } }></div>
+                        <div name='Explore' onClick={()=>Explore()} style={ { backgroundColor:'#704f80', height:60, width:60,marginLeft:20, marginTop:20   } }></div>
                         
                         </div>  
                         
@@ -203,7 +207,7 @@ function getconversation(coversaion_id){
       
       return conversation
 }
-getconversation()
+
 function CoversationWidget(props){
     const viewportHeight = props.viewportHeight;
     const backtoprofile_page = props.profilepage

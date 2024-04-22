@@ -153,7 +153,7 @@ const extractuserinfo = (users)=>{
   return extracted_data
 }
 
-app.get('/api/users', async (req, res)=>{
+app.get('/users', async (req, res)=>{
   
   const all_user = await readAllDocuments()
   

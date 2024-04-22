@@ -51,7 +51,7 @@ function ContactCard (props){
                 <br/>
                 {bio.slice(0, 60)} ...
             </p>
-           
+           <div id="profilepicture"></div>
            
 
     </div>
@@ -71,6 +71,7 @@ function Explore_page(){
     const [click, setClick] = useState(0);
     
     const users = data.map((user, i) =>  <ContactCard 
+                                            key={i}
                                             profileimage={user.profileimage}  
                                             username = {user.username}
                                             bio = {user.bio}

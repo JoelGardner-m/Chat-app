@@ -1,8 +1,17 @@
+// vite.config.js
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react'; // Import the react plugin
+import react from '@vitejs/plugin-react';
 
 export default defineConfig({
-  plugins: [
-    react(),
-  ]
+  plugins: [react()],
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5000', // Your API server address
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    },
+  },
 });

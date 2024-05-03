@@ -28,7 +28,7 @@ function ContactCard (props){
     const username = props.username
     const bio = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi rem odio nisi. Earum similique voluptas beatae, fuga aspernatur, dolorum facere harum quis quo, consectetur doloremque ratione nihil repudiandae atque consequatur!'
     
-
+    
     return(
     <>
     <div style={{
@@ -43,7 +43,7 @@ function ContactCard (props){
         margin:'8px',
         backgroundColor:"white",
         flow:'auto'}}>
-            <img src="https://via.placeholder.com/50x50" alt="" style={{borderRadius:'50px',width:50, height:50,  marginRight:'16px'}} />
+            <img src="https://via.placeholder.com/50x50" alt="profilepicture" style={{borderRadius:'50px',width:50, height:50,  marginRight:'16px'}} />
             
             <p>
                 <br/>
@@ -51,7 +51,8 @@ function ContactCard (props){
                 <br/>
                 {bio.slice(0, 60)} ...
             </p>
-           <div id="profilepicture"></div>
+            <img src="https://via.placeholder.com/30x30" alt="add contact"  class="add contact" style={{borderRadius:'10px', position:'relative', bottom:10}} />
+           
            
 
     </div>

@@ -7,7 +7,7 @@ import Welcome_page from './Welcome_page'
 import Find_contacts_page from './find_contact_page'
 import Profile_page from './Profile Page/Profile_page'
 import Store_page from './Store Page/store'
-import Explore_page from './Explore_page';
+import Explore_page from './Explore Page/Explore_page';
 import axios from 'axios';
 /*
 Landing_page 

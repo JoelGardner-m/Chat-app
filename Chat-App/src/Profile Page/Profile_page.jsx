@@ -220,6 +220,36 @@ function SettingWidget(props){
 )
 }
 
+function notificationWidget(props){
+  const backtoprofile_page = props.profilepage
+  
+  const notification = [];
+
+  const displayNotification = notification.map(() => <Card/> )
+  
+  
+  return(<>
+    <div>
+      <button style={ {borderRadius:50, backgroundColor:'#469846'} } onClick={ ()=> backtoprofile_page('profile')}> <img src='' alt="ProfilePage" /> </button>
+          <div style={{background:'white', borderRadius:50, padding:20, marginLeft:50,  display:'flex', justifyContent:'center', justifyItems:'center'}}>
+                {displayNotification}
+            
+            
+
+            
+            </div>    
+
+
+
+    </div>
+
+  </>
+
+
+)
+}
+
+
 function Explore(){
   fetch('/Explore')
       .then(res=> window.location.href += '/Explore')
@@ -391,6 +421,9 @@ function Profile(){
         case 'setting':
           setCurrentWidget(< SettingWidget viewportHeight={viewportHeight} userID={userID} profilepage={setWidget}/>)
         break;
+        case 'notification':
+          setCurrentWidget(< notificationWidget viewportHeight={viewportHeight} userID={userID} profilepage={setWidget}/>)
+          break;
       }
 
     }, [widget])

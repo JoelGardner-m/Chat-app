@@ -3,7 +3,7 @@ import image from "../assets/logo 1.png"
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom'
 
-function ContactsWidget(props){
+function ContactsListWidget(props){
     const message_widget = props.message_widget 
     const viewportHeight = window.innerHeight;
     
@@ -153,17 +153,84 @@ function ContactsWidget(props){
     
 }
 
+
+
+function SettingWidget(props){
+  const backtoprofile_page = props.profilepage
+  
+  
+  
+  return(<>
+    <div>
+      <button style={ {borderRadius:50, backgroundColor:'#469846'} } onClick={ ()=> backtoprofile_page('profile')}> <img src='' alt="ProfilePage" /> </button>
+          <div style={{background:'white', borderRadius:50, padding:20, marginLeft:50,  display:'flex', justifyContent:'center', justifyItems:'center'}}>
+                
+            <form action="/api/updateSettings" method="post">
+            
+                <label htmlFor="profilePicture">Profile Picture:</label>
+                <input style={{ marginLeft: 5, marginBottom: 10 }} type="file" name="profilePicture" id="profilePicture" />
+                    <br/>
+                <label htmlFor="status">status:</label>
+                <input style={{ marginLeft: 5, marginBottom: 10 }} type="checkbox" name="status" id="status" />
+                    <br/>
+                <label htmlFor="username">username:</label>
+                <input style={{ marginLeft: 5, marginBottom: 10 }} type="text" name="username" id="username" />
+                    <br/>
+                <label htmlFor="email">email:</label>
+                <input style={{ marginLeft: 5, marginBottom: 10 }} type="text" name="email" id="email" />
+                    <br/>
+                <label htmlFor="password">password:</label>
+                <input style={{ marginLeft: 5, marginBottom: 10 }} type="text" name="password" id="password" />
+                    <br/>
+                <label htmlFor="bio">bio:</label>
+                <textarea style={{ marginLeft: 5, marginBottom: 10, height:100, width:300, textAlign:'start', resize:'none'}}  name="bio" id="bio" />
+                    <br/>
+
+                <label  htmlFor="findablity">Findability:</label>
+                <input style={{ marginLeft: 5, marginBottom: 20 }} type="checkbox" name="findablity" id="findablity" />
+                    <br/>
+                <label htmlFor="interest">Interest:</label>
+                <input style={{ marginLeft: 5, marginBottom: 5 }} type="text" name="interest" id="interest" />
+                    <br/>
+                <label htmlFor="hobby">Hobby:</label>
+                <input style={{ marginLeft: 5, marginBottom: 5 }} type="text" name="hobby" id="hobby" />
+                    <br/>
+                <label htmlFor="profession">Profession:</label>
+                <input style={{ marginLeft: 5, marginBottom: 20 }} type="text" name="profession" id="profession" />
+                    <br/>
+                <label htmlFor="backgroundColor">Background Color:</label>
+                <input style={{ marginLeft: 5, marginBottom: 20 }} type="color" name="backgroundColor" id="backgroundColor" />
+                    <br/>
+            
+              <button type="submit">submit</button>
+
+            </form>
+            
+
+            
+            </div>    
+
+
+
+    </div>
+
+  </>
+
+
+)
+}
+
 function Explore(){
   fetch('/Explore')
-      .then(res=> window.location.href = res.url)
+      .then(res=> window.location.href += '/Explore')
   }
 function ProfileinfoWidget(props){
   const viewportHeight = props.viewportHeight;
-    
+  const changePage = props.changePage
   return (<>
                   <div style={ {  display: 'flex', alignItems : 'flex-start', backgroundColor:'#707070', width:'80%', height:viewportHeight, textAlign:'center' } }>
                       <div>
-                        <div name='settings'style={ { backgroundColor:'#ffff00', height:60, width:60,marginLeft:20, marginTop:20, borderRadius:10 } }></div>
+                        <div name='settings' onClick={()=> changePage('setting')}style={ { backgroundColor:'yellow', height:60, width:60,marginLeft:20, marginTop:20, borderRadius:10 } }></div>
                         <div name='store'style={ { backgroundColor:'#ffffff', height:60, width:60,marginLeft:20, marginTop:20   } }></div>
                         <div name='Explore' onClick={()=>Explore()} style={ { backgroundColor:'#704f80', height:60, width:60,marginLeft:20, marginTop:20   } }></div>
                         
@@ -187,31 +254,29 @@ function ProfileinfoWidget(props){
   
 }
 
-
-function getconversation(coversaion_id){
-
-    const conversation = [
-        { name: 'Emily', message: 'Hey, have you ever been to Arizona? I\'m thinking about going there for a vacation.',date:'9/20/2024',time:'12:30pm' },
-        { name: 'Alex', message: 'Hey Emily! Yes, I\'ve been there. Arizona is amazing! There are so many beautiful places to see.',date:'9/20/2024',time:'12:31pm' },
-        { name: 'Emily', message: 'That\'s awesome! What are some must-visit sights, Alex?',date:'9/20/2024',time:'12:32pm' },
-        { name: 'Alex', message: 'You have to visit the Grand Canyon, it\'s breathtaking! And don\'t miss Sedona for its red rock formations.',date:'9/20/2024',time:'12:34pm' },
-        { name: 'Emily', message: 'Sounds incredible! Did you meet any interesting people there, Alex?',date:'9/20/2024',time:'12:35pm' },
-        { name: 'Alex', message: 'Yes, I met some locals who shared fascinating stories about the history and culture of Arizona.',date:'9/20/2024',time:'12:36pm' },
-        { name: 'Emily', message: 'That\'s so cool! Any memorable jokes or moments?',date:'9/20/2024',time:'12:37pm' },
-        { name: 'Alex', message: 'Oh, I remember this one time when we were hiking and saw a roadrunner chasing a coyote. It felt like we were in a cartoon!',date:'9/20/2024',time:'12:38pm' },
-        { name: 'Emily', message: 'Haha, that must have been hilarious! Where did you stay during your visit?',date:'9/20/2024',time:'12:40pm' },
-        { name: 'Alex', message: 'We stayed at a cozy cabin near Flagstaff. The views of the starry sky at night were unforgettable.',date:'9/20/2024',time:'12:41pm' },
-        { name: 'Emily', message: 'Sounds magical! How was your overall experience, Alex? Would you go again?',date:'9/20/2024',time:'12:45pm' },
-        { name: 'Alex', message: 'Absolutely! Arizona has so much to offer. The landscapes, the people, the adventures – I\'d go back in a heartbeat.', date:'9/20/2024',time:'12:55pm' }
-      ];
-      
-      return conversation
-}
-
 function CoversationWidget(props){
     const viewportHeight = props.viewportHeight;
     const backtoprofile_page = props.profilepage
     const username = 'Emily'
+    function getconversation(coversaion_id){
+
+      const conversation = [
+          { name: 'Emily', message: 'Hey, have you ever been to Arizona? I\'m thinking about going there for a vacation.',date:'9/20/2024',time:'12:30pm' },
+          { name: 'Alex', message: 'Hey Emily! Yes, I\'ve been there. Arizona is amazing! There are so many beautiful places to see.',date:'9/20/2024',time:'12:31pm' },
+          { name: 'Emily', message: 'That\'s awesome! What are some must-visit sights, Alex?',date:'9/20/2024',time:'12:32pm' },
+          { name: 'Alex', message: 'You have to visit the Grand Canyon, it\'s breathtaking! And don\'t miss Sedona for its red rock formations.',date:'9/20/2024',time:'12:34pm' },
+          { name: 'Emily', message: 'Sounds incredible! Did you meet any interesting people there, Alex?',date:'9/20/2024',time:'12:35pm' },
+          { name: 'Alex', message: 'Yes, I met some locals who shared fascinating stories about the history and culture of Arizona.',date:'9/20/2024',time:'12:36pm' },
+          { name: 'Emily', message: 'That\'s so cool! Any memorable jokes or moments?',date:'9/20/2024',time:'12:37pm' },
+          { name: 'Alex', message: 'Oh, I remember this one time when we were hiking and saw a roadrunner chasing a coyote. It felt like we were in a cartoon!',date:'9/20/2024',time:'12:38pm' },
+          { name: 'Emily', message: 'Haha, that must have been hilarious! Where did you stay during your visit?',date:'9/20/2024',time:'12:40pm' },
+          { name: 'Alex', message: 'We stayed at a cozy cabin near Flagstaff. The views of the starry sky at night were unforgettable.',date:'9/20/2024',time:'12:41pm' },
+          { name: 'Emily', message: 'Sounds magical! How was your overall experience, Alex? Would you go again?',date:'9/20/2024',time:'12:45pm' },
+          { name: 'Alex', message: 'Absolutely! Arizona has so much to offer. The landscapes, the people, the adventures – I\'d go back in a heartbeat.', date:'9/20/2024',time:'12:55pm' }
+        ];
+        
+        return conversation
+  }
     const messages = getconversation()
     const latestMessage = messages[messages.length-1]
     const conserstion_display = messages.map( (messenger, i) => <li key={i} style={{ listStyleType: 'none', textAlign: messenger.name === username ? 'right' :'left', width:400, position:'relative', left: messenger.name === username ? '52%' : 0, right: messenger.name === username ? 0 : 90 , margin: '0px 40px 0px 40px' }}> 
@@ -293,19 +358,22 @@ function Profile(){
     const viewportHeight = window.innerHeight;
     const {id} = useParams()
     const [userinfo, setUserInfo] = useState(null)
-    /*
-    useEffect(() => {
-      const userInfo = async ()=>{ 
-        await fetch(`/api/v1/${id}/userinfo`)
-        .then(res=> res.json())
-        .then(data=> setUserInfo(data))
-        .catch((error)=> console.error(error))
-      }
-    userInfo()
-    }, [])
-    */
     const [widget, setWidget] = useState('profile')
     const [currentwidget, setCurrentWidget] = useState(<ProfileinfoWidget viewportHeight={viewportHeight}/>)
+    const userID = useParams('id').id
+
+    const [profileSetting, setProfileSetting] = useState({})
+  
+    useEffect(() => {
+      async function fetchPS(){
+      return await fetch(`/api/user/profileSetting/${userID}`)
+            .then(res=> res.json())
+            .then(data=> setProfileSetting(data))
+            
+      } 
+      fetchPS()
+      
+    }, [])
     function change_widget(widget){
       setWidget(widget)
 
@@ -314,18 +382,21 @@ function Profile(){
     useEffect(()=>{
       switch(widget){
         case 'profile':
-          setCurrentWidget(<ProfileinfoWidget viewportHeight={viewportHeight}/>)
+          setCurrentWidget(<ProfileinfoWidget viewportHeight={viewportHeight} changePage={setWidget}/>)
           break;
         case 'conversation':
           setCurrentWidget(<CoversationWidget viewportHeight={viewportHeight} profilepage={setWidget}/>)
         break;
-
+        
+        case 'setting':
+          setCurrentWidget(< SettingWidget viewportHeight={viewportHeight} userID={userID} profilepage={setWidget}/>)
+        break;
       }
 
     }, [widget])
     
 
-    function me(contact_id){
+    function contactmessgae(contact_id){
         console.log(contact_id)
         setWidget('conversation')
 
@@ -338,7 +409,7 @@ function Profile(){
              (<p>loading</p>): 
              (
               <div style={ {display: 'flex', alignItems : 'flex-start', height:viewportHeight }}> 
-              <ContactsWidget message_widget={me}></ContactsWidget>
+              <ContactsListWidget message_widget={contactmessgae}></ContactsListWidget>
               {currentwidget}
               
               </div> 

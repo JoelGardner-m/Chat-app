@@ -61,13 +61,45 @@ async function readAllDocuments() {
   return documents;
 }
 
-const readalldocs = async ()=>{
-  const docs = await readAllDocuments()
-  
-  return docs
-} 
+async function addToArray(id, fieldName, value) {
+  const collection = await connectAndReturnCollection();
+  const result = await collection.updateOne(
+    { _id: new ObjectId(id) },
+    { $push: { [fieldName]: value } }
+  );
+  return result.modifiedCount > 0;
+}
+
+async function removeFromArray(id, fieldName, value) {
+  const collection = await connectAndReturnCollection();
+  const result = await collection.updateOne(
+    { _id: new ObjectId(id) },
+    { $pull: { [fieldName]: value } }
+  );
+  return result.modifiedCount > 0;
+}
+
+async function updateInArray(id, fieldName, oldValue, newValue) {
+  const collection = await connectAndReturnCollection();
+  const result = await collection.updateOne(
+    { _id: new ObjectId(id), [fieldName]: oldValue },
+    { $set: { [`${fieldName}.$`]: newValue } }
+  );
+  return result.modifiedCount > 0;
+}
 
 
-module.exports = { readOneDocument, readAllDocuments, checkIfUserExists, insertOneDocument, updateOneDocument, deleteOneDocument, readalldocs };
+
+module.exports = { 
+  readOneDocument, 
+  readAllDocuments, 
+  checkIfUserExists, 
+  insertOneDocument, 
+  updateOneDocument, 
+  deleteOneDocument,  
+  addToArray,
+  removeFromArray,
+  updateInArray
+};
 
 

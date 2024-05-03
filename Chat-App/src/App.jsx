@@ -28,7 +28,7 @@ const routes = {
   '/find-contacts': Find_contacts_page,
   '/profile/': Profile_page,
   '/store_page': Store_page,
-  '/Explore':Explore_page
+  '/Explore': Explore_page
   
 };
 
@@ -64,9 +64,16 @@ function App() {
   
   function newComponent(){
     if (params(2) == 'profile'){
+      
       return (<Router basename='/'>
       <Routes>
-          <Route path='/profile/:id' Component={Profile_page} />
+          <Route path='/profile/:id' Component={Profile_page} >
+          <Route path='/profile/:id/Explore' Component={Explore_page} >
+
+            
+              </Route>
+
+          </Route>
 
       </Routes>
       
@@ -74,6 +81,23 @@ function App() {
 
     </Router>)
     }
+    if (params(1) == 'Explore'){
+      
+      return (<Router basename='/'>
+      <Routes>
+          
+          <Route path='/profile/:id/Explore' Component={Explore_page} >
+
+
+          </Route>
+
+      </Routes>
+      
+
+
+    </Router>)
+    }
+
     return (<Component/>)
   }
   //

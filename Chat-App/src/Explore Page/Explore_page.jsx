@@ -12,6 +12,7 @@ async function matchuser(setdata){
                 
     const Usermatch = serach != "" ? await match.All_user           
     .filter((user)=>{
+        
     return user 
     .username
     .toLowerCase()
@@ -19,15 +20,44 @@ async function matchuser(setdata){
         .toLowerCase())
 
 }) : [{username: "user not found"}]
-    
+
     setdata(Usermatch.length != 0 ? Usermatch : [{username: "user not found"}] )
 }
+function params (param){
+    if (param == 'end'){
+    const url = window.location.href;
+    const parts = url.split('/');
+    const lastParam = parts[parts.length - 1];
+    const end = lastParam;
 
+    return end
+    }
+    const url = window.location.href;
+    const parts = url.split('/');
+    const Param = parts[parts.length - param];
+    const parm = Param;
+
+    return parm 
+
+  }
 function ContactCard (props){
     const profileimage = props.profileimage
     const username = props.username
-    const bio = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi rem odio nisi. Earum similique voluptas beatae, fuga aspernatur, dolorum facere harum quis quo, consectetur doloremque ratione nihil repudiandae atque consequatur!'
+    const recieverID = props.recieverID
     
+    const bio = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi rem odio nisi. Earum similique voluptas beatae, fuga aspernatur, dolorum facere harum quis quo, consectetur doloremque ratione nihil repudiandae atque consequatur!'
+    function contactRequest(){
+        
+        fetch('/api/requestContact', {
+            method: 'POST',
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({senderID: params(2), recieverID:recieverID})
+
+        })
+
+    }
     
     return(
     <>
@@ -51,7 +81,7 @@ function ContactCard (props){
                 <br/>
                 {bio.slice(0, 60)} ...
             </p>
-            <img src="https://via.placeholder.com/30x30" alt="add contact"  class="add contact" style={{borderRadius:'10px', position:'relative', bottom:10}} />
+            <img src="https://via.placeholder.com/30x30" alt="add contact" onClick={()=>contactRequest()} className="add contact" style={{borderRadius:'10px', position:'relative', bottom:10}} />
            
            
 
@@ -67,7 +97,7 @@ function ContactCard (props){
 }
 
 
-function Explore_page(){
+function Explore_page(props){
     const [data, setData] = useState([])
     const [click, setClick] = useState(0);
     
@@ -75,6 +105,7 @@ function Explore_page(){
                                             key={i}
                                             profileimage={user.profileimage}  
                                             username = {user.username}
+                                            recieverID = {user.userid}
                                             bio = {user.bio}
                                                             />)
 

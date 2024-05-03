@@ -1,7 +1,17 @@
 const express = require('express');
 const Cors = require('cors')
 const path = require('path')
-const {readOneDocument, readAllDocuments, checkIfUserExists, insertOneDocument, updateOneDocument, deleteOneDocument }= require('./Particpants-DBRequest');
+const  { 
+  readOneDocument, 
+  readAllDocuments, 
+  checkIfUserExists, 
+  insertOneDocument, 
+  updateOneDocument, 
+  deleteOneDocument,  
+  addToArray,
+  removeFromArray,
+  updateInArray
+}= require('./Particpants-DBRequest');
 
 const app = express()
 const port = 5000
@@ -44,16 +54,18 @@ const Account = {
 
 
 const Account = {
-    'email':"",
-    'username':"",
-    'password':"",
-    'profileConfig':{
-        'profileFindablity': Boolean,
-        'SearchBy': {interest:{}, hobby:{}, profession:{}},
-        'backgroundColor': "",
-        'profilePicture':"",
-        'contacts':[],
-        'conversations':{}
+    email:"",
+    username:"",
+    password:"",
+    contactRequest:[],
+    notification:[],
+    profileConfig:{
+        profileFindablity: Boolean(),
+        SearchBy: {interest:{}, hobby:{}, profession:{}},
+        backgroundColor: "",
+        profilePicture:"",
+        contacts:[],
+        conversations:{}
       }
     
 
@@ -77,13 +89,13 @@ app.get('/login', (req, res)=>{
 
 app.post('/checkCreditials', async (req,res)=>{
   const info = req.body;
-  const {Email,username,password} = req.body;
-  const User_existence =  await checkIfUserExists('jake')
-  const userID = String(User_existence.ID._id)
+  const {Email, username, password} = req.body;
+  const User_existence =  await checkIfUserExists(username)
   
   if (User_existence.Exist ){
-    
-    return res.status(200).redirect(`/profile_page/${userID}`)
+    const userID = String(User_existence.ID._id)
+
+    return res.status(200).redirect(`/profile/${userID}`)
   }
 
   return res.status(404).json({message: 'User dose not exist'})
@@ -126,7 +138,23 @@ app.get('/profile/:id', (req, res) => {
 
 })
 
-app.get('/Explore', (req,res)=>{
+app.get('/user/profileSetting/:id', async (req, res)=>{
+  const {id} = req.params
+  //console.log(id)
+  const userSetting = await readOneDocument(id)
+  return res.json({userSetting: userSetting})
+
+})
+
+app.patch('api/updateSettings/:id', async (req, res)=>{
+  const {id} = req.params
+  //console.log(id)
+  //const userSetting = await readOneDocument(id)
+  //return res.json({userSetting: userSetting})
+
+})
+
+app.get('/profile/:id/Explore', (req,res)=>{
   const filepath = path.join(__dirname, 'Chat-App/dist', 'index.html')
   res.sendFile(filepath)
 })
@@ -134,12 +162,14 @@ app.get('/Explore', (req,res)=>{
 app.get('/Explore/catgoty:', (req,res)=>{
 
 })
+
 const extractuserinfo = (users)=>{
   let extracted_data = [];
   
   users.forEach(user => {
 
     let userinfo = {
+      userid: user._id,
       profileimage: user.profileimage,
       username: user.username,
       bio: user.bio
@@ -173,6 +203,28 @@ app.get('/api/v1/:userID/userinfo', async (req, res) => {
   console.log(userData)
   res.json(userData)
 })
+app.post('/requestContact', async (req, res) => {
+  const {senderID, recieverID } = req.body
+  
+  
+  const readrecieverID = await readOneDocument(recieverID)
+  
+  if (readrecieverID.contactRequest.includes(senderID)){
+    
+    return res.status(200).json({messgaes: "Connect to contact has already been requested"})
+  }
+  
+  addToArray(recieverID,'contactRequest',senderID)
+  return res.status(200).json({messgaes: "Connect to contact has been requested"})
+})
+
+app.delete('/requestContact', async(req, res)=>{
+
+
+
+
+})
+
 
 
 app.listen(port, console.log(`active port on ${port}`));

@@ -28,20 +28,16 @@ import React, { useState, useEffect } from 'react';
 
 
 */
-async function validateCredial (){
-    return await fetch('/checkCreditials',{
-        method:'POST',
+async function validateCredial (username, password){
+    // const username = document.getElementById(username)
+    fetch('/api/checkCreditials', {
+        method: 'POST',
         headers:{
-            'Content-Type': 'appilcation/json'
+            'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-            data:{jim:"jim"}
-        })
+        body: JSON.stringify({username: username, password: password})
 
     })
-        .then(res => res.json())
-        .then(data => console.log(data))
-
 
 }
 
@@ -82,8 +78,8 @@ function Login_page(props) {
         
             <div style={{background:'#ffffff', borderRadius:10, width:180, padding:'5%', textAlign:'center'}}>
                     
-                    <form id="info" action='/checkCreditials' method='post'>
-
+            <form id="info" action='/api/checkCreditials' method='post'>
+                        
                         
 
                         <input type="text" name="username" id="username" placeholder="username" />
@@ -92,7 +88,7 @@ function Login_page(props) {
                         <input type="text" name="password" id="password" placeholder="password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8}" />
                         <br/><br/>
 
-                        <button type="submit" onClick={ ()=> [validateCredial()] } style={{textAlign:'Center', width:100}}>Sign in</button>
+                        <button type="submit"  style={{textAlign:'Center', width:100}}>Sign in</button>
                     </form>
                 
                 

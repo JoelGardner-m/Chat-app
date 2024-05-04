@@ -44,7 +44,7 @@ function ContactCard (props){
     const profileimage = props.profileimage
     const username = props.username
     const recieverID = props.recieverID
-    
+    let bottom = 10
     const bio = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi rem odio nisi. Earum similique voluptas beatae, fuga aspernatur, dolorum facere harum quis quo, consectetur doloremque ratione nihil repudiandae atque consequatur!'
     function contactRequest(){
         
@@ -81,7 +81,9 @@ function ContactCard (props){
                 <br/>
                 {bio.slice(0, 60)} ...
             </p>
-            <img src="https://via.placeholder.com/30x30" alt="add contact" onClick={()=>contactRequest()} className="add contact" style={{borderRadius:'10px', position:'relative', bottom:10}} />
+            <img src="https://via.placeholder.com/30x30" alt="add contact" onClick={()=>{
+                contactRequest() 
+                console.log('added') }} className="add contact" style={{borderRadius:'10px', position:'relative', bottom:{bottom},}} />
            
            
 

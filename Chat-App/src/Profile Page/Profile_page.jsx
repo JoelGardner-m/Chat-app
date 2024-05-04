@@ -346,7 +346,7 @@ function Profile(){
 
     }
 
-    useEffect(()=>{
+    useEffect(() => {
       if (userinfo != null ){
       switch(widget){
         case 'profile':

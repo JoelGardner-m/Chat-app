@@ -58,13 +58,14 @@ const Account = {
     username:"",
     password:"",
     contactRequest:[],
-    notification:[],
+    notification:["welcome to Chat App. A place to meet new people or find a business patner all in one app."],
     profileConfig:{
-        profileFindablity: Boolean(),
+        profileFindablity: true,
         SearchBy: {interest:{}, hobby:{}, profession:{}},
-        backgroundColor: "",
-        profilePicture:"",
+        backgroundColor: "white",
+        profilePicture:"https://via.placeholder.com/50x50",
         contacts:[],
+        bio:'',
         conversations:{}
       }
     
@@ -172,7 +173,7 @@ const extractuserinfo = (users)=>{
       userid: user._id,
       profileimage: user.profileimage,
       username: user.username,
-      bio: user.bio
+      bio: user.profileConfig.bio
 
     }
     
@@ -196,13 +197,14 @@ app.get('/users', async (req, res)=>{
 
 })
 
-app.get('/api/v1/:userID/userinfo', async (req, res) => {
+app.get('/v1/:userID/userinfo', async (req, res) => {
   const { userID } = req.params
   const userData = await readOneDocument(userID)
   
   console.log(userData)
   res.json(userData)
-})
+});
+
 app.post('/requestContact', async (req, res) => {
   const {senderID, recieverID } = req.body
   
@@ -213,8 +215,10 @@ app.post('/requestContact', async (req, res) => {
     
     return res.status(200).json({messgaes: "Connect to contact has already been requested"})
   }
-  
-  addToArray(recieverID,'contactRequest',senderID)
+
+  const sendersUsername = await readOneDocument(senderID)
+  addToArray(recieverID, 'notification', { message: `${sendersUsername.username} has just added you. you should add them back.`, senderID: senderID})
+  addToArray(recieverID,' contactRequest', senderID)
   return res.status(200).json({messgaes: "Connect to contact has been requested"})
 })
 

@@ -1,13 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+
 
 export function CoversationWidget(props) {
   const viewportHeight = props.viewportHeight;
   const backtoprofile_page = props.profilepage;
-  const username = props.username;
+  const userID = useParams('id').id;
+  const converstion_id = props.conversionID;
+  const [messages, setMessages] = useState([]);
+
+  
+  console.log(converstion_id);
+  useEffect(() => {
+    async function fetchConversion (){
+      return await fetch(`/api/profile/${userID}/conversations`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },  
+        body: JSON.stringify({
+          converstion_id: converstion_id
+        })
+
+      })
+      .then(res => res.json())
+      .then(data => (data))
 
 
-  const messages = props.conversations;
-  const latestMessage = messages[messages.length - 1];
+    }
+    fetchConversion()
+
+
+  }, [])
+
+
+  
+
+
+
+
   const conserstion_display = messages.map((messenger, i) => <li key={i} style={{ listStyleType: 'none', textAlign: messenger.name === username ? 'right' : 'left', width: 400, position: 'relative', left: messenger.name === username ? '52%' : 0, right: messenger.name === username ? 0 : 90, margin: '0px 40px 0px 40px' }}>
     <div>
       <p style={{ marginBottom: 0, position: 'relative', left: messenger.name === username ? '' : 30, right: messenger.name === username ? 30 : '' }}>{messenger.name}</p>
@@ -42,18 +73,22 @@ export function CoversationWidget(props) {
       }
     }
   };
-
+//
   return (
     <>
-      <div style={{ alignItems: 'flex-start', backgroundColor: '#40809039', width: '80%', height: viewportHeight }}>
+      <div style={{ alignItems: 'flex', backgroundColor: 'blue', width: '100%', height: viewportHeight }}>
+        
         <button style={{ borderRadius: 50, backgroundColor: '#469846' }} onClick={() => backtoprofile_page('profile')}> <img src='' alt="ProfilePage" /> </button>
+        
         <div style={{ height: viewportHeight, overflow: 'auto' }}>
+          
           <br />
+          
           <ul>
             {conserstion_display}
           </ul>
 
-          <div style={{ position: 'fixed', height: viewportHeight - 50, left: 450 }}>
+          <div style={{ position: 'fixed', height: '100vh' , left: '5vh', top: '94vh' , width: `100%` }}>
             <form id='message' action="" method="post">
               <textarea
                 className="input"
@@ -61,7 +96,7 @@ export function CoversationWidget(props) {
                 value={value}
                 onChange={handleChange}
                 onKeyDown={handleKeyDown}
-                style={{ borderRadius: 20, minheight: 200, height: `${(value.length / 10000) * 20}px`, resize: 'none', paddingLeft: `10px`, paddingBottom: `20px`, paddingTop: `10px`, width: 500, fontSize: 15 }}
+                style={{ borderRadius: 20, minheight: 200, height: `${(value.length / 10000) * 20}px`, resize: 'none', paddingLeft: `10px`, paddingBottom: `20px`, paddingTop: `10px`, width: '90%', fontSize: 15 }}
 
               ></textarea>
             </form>

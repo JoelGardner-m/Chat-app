@@ -18,8 +18,8 @@ function ProfileinfoWidget(props){
   const bio = props.bio;
   const profilepicture = props.profilepicture;
   const [contacts, setContacts] = useState([]);
+  const CurrentConversion = props.CurrentConversion;
   
-
 
 
   useEffect(() => {
@@ -37,7 +37,7 @@ function ProfileinfoWidget(props){
   
   
   
-  const allContacts = contacts.map((contact, i) =>  <Card key={i} name={contact.username} converstion_id={`#${contact.userID}#${userID}`} messages={[]} backgroundColor="#ffffff" Color='#000000'/> )
+  const allContacts = contacts.map((contact, i) =>  <Card key={i} name={contact.username} converstion_id={`#${userID}#${contact.userID}`} setCurrentConversion={CurrentConversion} change_page={(nextPage)=> changePage(nextPage)}  messages={[]} backgroundColor="#ffffff" Color='#000000'/> )
   
 
 
@@ -106,7 +106,8 @@ function Profile(){
     const [widget, setWidget] = useState('profile');
     const [currentwidget, setCurrentWidget] = useState(<ProfileinfoWidget viewportHeight={viewportHeight}/>);
     const userID = useParams('id').id
-
+    
+    const [currentConversion, setCurrentConversion] = useState('');
     const [profileSetting, setProfileSetting] = useState({})
     
     useEffect(() => {
@@ -145,12 +146,12 @@ function Profile(){
       if (userinfo != null ){
       switch(widget){
         case 'profile':
-          setCurrentWidget(<ProfileinfoWidget background={userinfo.background} bio={userinfo.profileConfig.bio} profilepicture={userinfo.profileConfig.profilepicture} contacts={userinfo.profileConfig.contacts} viewportHeight={viewportHeight} changePage={setWidget}/>)
+          setCurrentWidget(<ProfileinfoWidget background={userinfo.background} bio={userinfo.profileConfig.bio} profilepicture={userinfo.profileConfig.profilepicture} contacts={userinfo.profileConfig.contacts} viewportHeight={viewportHeight} changePage={setWidget} CurrentConversion={setCurrentConversion}/>)
           
           break;
 
         case 'conversation':
-          setCurrentWidget(<CoversationWidget username={userinfo.username} viewportHeight={viewportHeight} profilepage={setWidget}/>)
+          setCurrentWidget(<CoversationWidget conversionID={currentConversion} viewportHeight={viewportHeight} profilepage={setWidget}/>)
         break;
         
         case 'setting':

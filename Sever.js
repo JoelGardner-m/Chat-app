@@ -216,11 +216,17 @@ app.delete('/declineRequest', async(req ,res) => {
   return res.json({message: 'you have declined message'})
 })
 
-app.get('/profile/:id/conversation', async (req, res)=>{
-  const {id, conversion} = req.body;
-  const userConversations = await readOneDocument(id)
+
+
+app.post('/profile/:id/conversations', async (req, res)=>{
+  const {id} = req.params;
+  const {converstion_id} = req.body;
+
+  console.log(`'${converstion_id}'`)
+  const userConversations = await readOneDocument(id);
   
-  return res.json({conversation: userConversations.profileConfig.conversations[conversion]})
+  console.log('getting convo', userConversations.profileConfig.conversations[ `${converstion_id}` ])
+  return res.json({conversation: userConversations.profileConfig.conversations[ `${converstion_id}` ]})
 
 
 })

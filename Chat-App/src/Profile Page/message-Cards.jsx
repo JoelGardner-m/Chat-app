@@ -4,12 +4,16 @@ import { useState, useEffect } from 'react';
 function Card(props){
   
   const backgroundColor = props.backgroundColor;
+  const changePage = props.change_page
   const textColor = props.textColor;
   const latestTextMessage = props.latestTextMessage;
   const name = props.name;
   const converstion_id = props.converstion_id
   const messages = props.messages
   const [displaymessage, Setdisplaymessage]  = useState();
+  
+  const setCurrentConversion = props.setCurrentConversion;
+  
   
   latestTextMessage != null ? useEffect(()=>{
     
@@ -19,7 +23,8 @@ function Card(props){
 
   return (
       <>
-        <div  className="card" onClick={ ()=> messages(converstion_id)} style={ { backgroundColor:`${backgroundColor}`, color:`${textColor}`, borderRadius:10, marginLeft: 10, marginBottom:10, width:'90%', height:80} } >
+        <div  className="card" onClick={ ()=> { setCurrentConversion(converstion_id)
+          changePage('conversation') }} style={ { backgroundColor:`${backgroundColor}`, color:`${textColor}`, borderRadius:10, marginLeft: 10, marginBottom:10, width:'90%', height:80} } >
           
           <p style={{color:'hsl(250, 0%, 70%)', textAlign:'right', paddingRight:10, paddingTop:5, fontSize:12, margin:0 }}>data and time</p>
          

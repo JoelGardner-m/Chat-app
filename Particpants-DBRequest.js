@@ -88,6 +88,17 @@ async function updateInArray(id, fieldName, oldValue, newValue) {
   return result.modifiedCount > 0;
 }
 
+async function removeItemFromArray(id, fieldName, index) {
+  const collection = await connectAndReturnCollection();
+  const updateData = { 
+    $unset: { [`${fieldName}.${index}`]: 1}
+   } // Use the positional operator $ to specify the index of the array element
+  const result = await collection.updateOne(
+    { _id: new ObjectId(id) },
+    updateData
+  );
+  return result.modifiedCount > 0;
+}
 
 
 module.exports = { 
@@ -99,7 +110,9 @@ module.exports = {
   deleteOneDocument,  
   addToArray,
   removeFromArray,
-  updateInArray
+  removeItemFromArray,
+  updateInArray,
+  
 };
 
 

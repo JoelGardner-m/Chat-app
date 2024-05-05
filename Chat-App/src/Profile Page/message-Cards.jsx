@@ -11,11 +11,11 @@ function Card(props){
   const messages = props.messages
   const [displaymessage, Setdisplaymessage]  = useState();
   
-  useEffect(()=>{
+  latestTextMessage != null ? useEffect(()=>{
     
     Setdisplaymessage(latestTextMessage.slice(0,  30)+ "   ...")
     
-  }, [latestTextMessage])
+  }, [latestTextMessage]) : null
 
   return (
       <>

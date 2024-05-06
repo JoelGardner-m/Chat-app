@@ -243,10 +243,10 @@ app.post('/profile/:id/conversations', async (req, res)=>{
   const {id} = req.params;
   const {converstion_id} = req.body;
 
-  console.log(`'${converstion_id}'`)
+  //console.log(`'${converstion_id}'`)
   const userConversations = await readOneDocument(id);
   
-  console.log('getting convo', userConversations.profileConfig.conversations[ `${converstion_id}` ])
+  //console.log('getting convo', userConversations.profileConfig.conversations[ `${converstion_id}` ])
   return res.json({conversation: userConversations.profileConfig.conversations[ `${converstion_id}` ]})
 
 
@@ -254,14 +254,15 @@ app.post('/profile/:id/conversations', async (req, res)=>{
 
 app.post('/:id/convo/addMessage', async (req, res)=>{
   const {senderID, converstion_id, message} = req.body
-  console.log('this is sender', message)
+  console.log('this is sender '+ message)
   const readsenderID = await readOneDocument(senderID)
   //readsenderID.profileConfig.conversations[`${converstion_id}`].messages.push({senderID: senderID, message: message})
     
   readsenderID.profileConfig.conversations[`${converstion_id}`].particapants.forEach((user)=>{
     addToArray(user, [`profileConfig.conversations.${converstion_id}.messages`], {senderID: senderID, username: readsenderID.username, message: message })
-    
+    console.log('adding message to', user)
   })
+  
   res.json("message sent")
  
 

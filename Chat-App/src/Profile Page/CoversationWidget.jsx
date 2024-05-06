@@ -21,17 +21,21 @@ export function CoversationWidget(props) {
           converstion_id: converstion_id
         })
         .then(res => {
-          SetlatestTextMessage(res.data.message);
+          const conversation = res.data.conversation.messages
+          SetlatestTextMessage( pre => pre === conversation[conversation.length-1].message ? pre : conversation[conversation.length-1].message);
         })
         .catch(err => {
           console.log(err);
         });
-      }, 10000);
+      }, 1000);
       return () => clearInterval(interval);
     }, [converstion_id, userID]);
   
   }
+ 
   
+
+
   useEffect(() => {
     async function fetchConversion (){
       return await fetch(`/api/profile/${userID}/conversations`, {
@@ -56,12 +60,12 @@ export function CoversationWidget(props) {
 
   }, [latestTextMessage, checkforlatesttext()])
 
-
+  
   
 
 
 
-  console.log(messages.length !== 0)
+  
   const conversation_display = messages.length !== 0 ? messages.map((messenger, i) => (
     <li key={i} style={{ 
       listStyleType: 'none', 
@@ -110,10 +114,9 @@ export function CoversationWidget(props) {
       // Handle Enter key press (e.g., submit form)
       console.log('Enter key pressed');
       const message = document.getElementById('message').textContent;
-      document.getElementById('messageBox').innerText = ''
-      
       if (message != '') {
-        SetlatestTextMessage(message)
+        
+        
         
         fetch(`/api/${userID}/convo/addMessage` , {
           method: 'POST',
@@ -127,7 +130,7 @@ export function CoversationWidget(props) {
             message: value,
           })
         });
-        document.getElementById('message').value = ''
+        setValue('')
       }
     }
   };
@@ -147,18 +150,20 @@ export function CoversationWidget(props) {
           </ul>
 
           <div style={{ position: 'fixed', height: '100vh' , left: '5vh', top: '94vh' , width: `100%` }}>
-            <form id='message' action="" method="post">
-              <textarea
-                id='messageBox'
-                className="input"
-                placeholder="Chat App"
-                value={value}
-                onChange={handleChange}
-                onKeyDown={handleKeyDown}
-                style={{ borderRadius: 20, minheight: 200, height: `${(value.length / 10000) * 20}px`, resize: 'none', paddingLeft: `10px`, paddingBottom: `20px`, paddingTop: `10px`, width: '90%', fontSize: 15 }}
+          <form id='message' action='' method="post">
+    
+    
+          <textarea
+            className="input"
+            placeholder="Chat App"
+            value={value}
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
+            style={{ borderRadius: 20, minheight: 200, height: `${(value.length / 10000) * 20}px`, resize: 'none', paddingLeft: `10px`, paddingBottom: `20px`, paddingTop: `10px`, width: '80%', fontSize: 15 }}
 
-              ></textarea>
-            </form>
+          ></textarea>
+          
+        </form>
           </div>
         </div>
 

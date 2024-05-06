@@ -8,13 +8,24 @@ function Card(props){
   const textColor = props.textColor;
   const latestTextMessage = props.latestTextMessage;
   const name = props.name;
-  const converstion_id = props.converstion_id
+  const userID = props.UserID
+  const personContactingID = props.personContactingID
   const messages = props.messages
   const [displaymessage, Setdisplaymessage]  = useState();
-  
+  const [converstion_id, Setconverstion_id] = useState(null);
   const setCurrentConversion = props.setCurrentConversion;
   
-  
+  useEffect(()=>{
+    async function fetchConverstion() {
+      return await fetch(`/api/conversations/${userID}/${personContactingID}`)
+      .then(res => res.json())
+      .then(data => Setconverstion_id(data.conversationID))
+    }
+    fetchConverstion()
+  })
+
+
+
   latestTextMessage != null ? useEffect(()=>{
     
     Setdisplaymessage(latestTextMessage.slice(0,  30)+ "   ...")

@@ -197,8 +197,8 @@ app.post('/acceptContactRequest', async (req, res)=>{
     return res.status(200).json({messgaes: "This person has already been added"})
   }
 
-  await updateOneDocument( `${accepter}`, { [`profileConfig.contacts`]: [...readAccepter.profileConfig.contacts, {username: readSenderID.username, userID:senderID}] } )
-  await updateOneDocument( `${senderID}`, { [`profileConfig.contacts`]: [...readSenderID.profileConfig.contacts, {username: readAccepter.username, userID:accepter}] } )
+  await updateOneDocument( `${accepter}`, { [`profileConfig.contacts`]: [...readAccepter.profileConfig.contacts, {username: readSenderID.username, userID:senderID, conversationID: `${senderID}#${accepter}`}] } )
+  await updateOneDocument( `${senderID}`, { [`profileConfig.contacts`]: [...readSenderID.profileConfig.contacts, {username: readAccepter.username, userID:accepter, conversationID: `${senderID}#${accepter}`}] } )
   console.log("contact added")
 
   await updateOneDocument( `${accepter}`, { [`profileConfig.conversations.#${accepter}#${senderID}`]: {particapants: [senderID, accepter], messages:[]} } )
@@ -216,6 +216,27 @@ app.delete('/declineRequest', async(req ,res) => {
   return res.json({message: 'you have declined message'})
 })
 
+app.get('/conversations/:userID/:contactingID', async (req, res)=>{
+  const {userID, contactingID} = req.params
+  const userConversations = await readOneDocument(userID);
+  
+  const matchingConvo = Object.keys(userConversations.profileConfig.conversations).find((convoKey)=>{
+    return (convoKey === `#${userID}#${contactingID}`) || (`#${contactingID}#${userID}` === convoKey )
+  })
+  console.log('looking for convo', matchingConvo)
+  if (matchingConvo){
+    return res.json({conversationID: matchingConvo})
+  }
+
+  //return res.json({conversations: userConversations.profileConfig.conversations})
+
+
+
+}
+
+)
+
+
 
 
 app.post('/profile/:id/conversations', async (req, res)=>{
@@ -231,14 +252,20 @@ app.post('/profile/:id/conversations', async (req, res)=>{
 
 })
 
-app.post('/message', async (req, res)=>{
-  const {senderID, recieverID, message} = req.body
-  
-  const readrecieverID = await readOneDocument(recieverID)
-
-  addToArray(senderID, [`profileConfig.conversations.#${senderID}#${recieverID}`], {senderID: senderID, username: readrecieverID.username, message: message })
+app.post('/:id/convo/addMessage', async (req, res)=>{
+  const {senderID, converstion_id, message} = req.body
+  console.log('this is sender', message)
+  const readsenderID = await readOneDocument(senderID)
+  //readsenderID.profileConfig.conversations[`${converstion_id}`].messages.push({senderID: senderID, message: message})
+    
+  readsenderID.profileConfig.conversations[`${converstion_id}`].particapants.forEach((user)=>{
+    addToArray(user, [`profileConfig.conversations.${converstion_id}.messages`], {senderID: senderID, username: readsenderID.username, message: message })
+    
+  })
   res.json("message sent")
+ 
 
+  
 
 }
 

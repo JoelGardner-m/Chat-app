@@ -31,13 +31,11 @@ function ProfileinfoWidget(props){
     }
     fetchContacts()
 
-    
-    
   }, [])
   
   
   
-  const allContacts = contacts.map((contact, i) =>  <Card key={i} name={contact.username} converstion_id={`#${userID}#${contact.userID}`} setCurrentConversion={CurrentConversion} change_page={(nextPage)=> changePage(nextPage)}  messages={[]} backgroundColor="#ffffff" Color='#000000'/> )
+  const allContacts = contacts.map((contact, i) =>  <Card key={i} name={contact.username} UserID={userID} personContactingID={`${contact.userID}`} setCurrentConversion={CurrentConversion} change_page={(nextPage)=> changePage(nextPage)}  messages={[]} backgroundColor="#ffffff" Color='#000000'/> )
   
 
 

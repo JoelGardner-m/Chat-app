@@ -1,16 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
+
+
 
 
 export function CoversationWidget(props) {
   const viewportHeight = props.viewportHeight;
   const backtoprofile_page = props.profilepage;
   const userID = useParams('id').id;
+  
   const converstion_id = props.conversionID;
+  const [latestTextMessage, SetlatestTextMessage] = useState('');
   const [messages, setMessages] = useState([]);
 
+  function checkforlatesttext() {
+    useEffect(() => {
+      const interval = setInterval(() => {
+        axios.post(`/api/profile/${userID}/conversations`, {
+          converstion_id: converstion_id
+        })
+        .then(res => {
+          SetlatestTextMessage(res.data.message);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      }, 10000);
+      return () => clearInterval(interval);
+    }, [converstion_id, userID]);
   
-  console.log(converstion_id);
+  }
+  
   useEffect(() => {
     async function fetchConversion (){
       return await fetch(`/api/profile/${userID}/conversations`, {
@@ -24,29 +45,59 @@ export function CoversationWidget(props) {
 
       })
       .then(res => res.json())
-      .then(data => (data))
+      .then(data => setMessages(data.
+        conversation.messages
+        ))
 
 
     }
     fetchConversion()
 
 
-  }, [])
+  }, [latestTextMessage, checkforlatesttext()])
 
 
   
 
 
 
+  console.log(messages.length !== 0)
+  const conversation_display = messages.length !== 0 ? messages.map((messenger, i) => (
+    <li key={i} style={{ 
+      listStyleType: 'none', 
+      textAlign: messenger.senderID === userID ? 'right' : 'left', 
+      width: 400, 
+      position: 'relative', 
+      left: messenger.senderID === userID ? '52%' : 0, 
+      right: messenger.senderID === userID ? 0 : 90, 
+      margin: '0px 40px 0px 40px' 
+    }}>
+      <div>
+        <p style={{ 
+          marginBottom: 0, 
+          position: 'relative', 
+          left: messenger.senderID === userID ? '' : 30, 
+          right: messenger.senderID === userID ? 30 : '' 
+        }}>{messenger.username}</p>
+        <br />
+        <p style={{ 
+          borderRadius: 50, 
+          padding: 15, 
+          marginTop: 0, 
+          textAlign: messenger.senderID === userID ? '' : 'left', 
+          backgroundColor: messenger.senderID === userID ? '#601040' : '#122890', 
+          color: '#ffffff' 
+        }}>{messenger.message}</p>
+        <p style={{ 
+          marginBottom: 0, 
+          position: 'relative', 
+          left: messenger.senderID === userID ? '' : 15, 
+          right: messenger.senderID === userID ? 15 : '' 
+        }}>{messenger.date + " date    "}{"time " + messenger.time}</p>
+      </div>
+    </li>
+  )) : null;
 
-  const conserstion_display = messages.map((messenger, i) => <li key={i} style={{ listStyleType: 'none', textAlign: messenger.name === username ? 'right' : 'left', width: 400, position: 'relative', left: messenger.name === username ? '52%' : 0, right: messenger.name === username ? 0 : 90, margin: '0px 40px 0px 40px' }}>
-    <div>
-      <p style={{ marginBottom: 0, position: 'relative', left: messenger.name === username ? '' : 30, right: messenger.name === username ? 30 : '' }}>{messenger.name}</p>
-      <br />
-      <p style={{ borderRadius: 50, padding: 15, marginTop: 0, textAlign: messenger.name === username ? '' : 'left', backgroundColor: messenger.name === username ? '#601040' : '#122890', color: '#ffffff' }}>{messenger.message}</p>
-      <p style={{ marginBottom: 0, position: 'relative', left: messenger.name === username ? '' : 15, right: messenger.name === username ? 15 : '' }}>{messenger.date + "     "}{" " + messenger.time}</p>
-    </div>
-  </li>);
   const [value, setValue] = useState('');
 
   const handleChange = (event) => {
@@ -59,17 +110,24 @@ export function CoversationWidget(props) {
       // Handle Enter key press (e.g., submit form)
       console.log('Enter key pressed');
       const message = document.getElementById('message').textContent;
+      document.getElementById('messageBox').innerText = ''
+      
       if (message != '') {
-        fetch('/api/user/convo/addMessage ', {
+        SetlatestTextMessage(message)
+        
+        fetch(`/api/${userID}/convo/addMessage` , {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            key: {}
+
+            senderID: userID,
+            converstion_id: converstion_id,
+            message: value,
           })
         });
-
+        document.getElementById('message').value = ''
       }
     }
   };
@@ -85,12 +143,13 @@ export function CoversationWidget(props) {
           <br />
           
           <ul>
-            {conserstion_display}
+            {conversation_display}
           </ul>
 
           <div style={{ position: 'fixed', height: '100vh' , left: '5vh', top: '94vh' , width: `100%` }}>
             <form id='message' action="" method="post">
               <textarea
+                id='messageBox'
                 className="input"
                 placeholder="Chat App"
                 value={value}

@@ -12,17 +12,10 @@ function Card(props){
   const personContactingID = props.personContactingID
   const messages = props.messages
   const [displaymessage, Setdisplaymessage]  = useState();
-  const [converstion_id, Setconverstion_id] = useState(null);
-  const setCurrentConversion = props.setCurrentConversion;
+  const converstion_id = props.converstion_id
+  const setCurrentConversation = props.setCurrentConversation;
   
-  useEffect(()=>{
-    async function fetchConverstion() {
-      return await fetch(`/api/conversations/${userID}/${personContactingID}`)
-      .then(res => res.json())
-      .then(data => Setconverstion_id(data.conversationID))
-    }
-    fetchConverstion()
-  })
+  
 
 
 
@@ -34,7 +27,7 @@ function Card(props){
 
   return (
       <>
-        <div  className="card" onClick={ ()=> { setCurrentConversion(converstion_id)
+        <div  className="card" onClick={ ()=> { setCurrentConversation(converstion_id)
           changePage('conversation') }} style={ { backgroundColor:`${backgroundColor}`, color:`${textColor}`, borderRadius:10, marginLeft: 10, marginBottom:10, width:'90%', height:80} } >
           
           <p style={{color:'hsl(250, 0%, 70%)', textAlign:'right', paddingRight:10, paddingTop:5, fontSize:12, margin:0 }}>data and time</p>

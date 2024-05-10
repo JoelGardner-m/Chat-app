@@ -15,10 +15,11 @@ function ProfileinfoWidget(props){
   const viewportHeight = props.viewportHeight;
   const changePage = props.changePage;
   const background = props.background;
+  const CurrentConversion = props.CurrentConversion
   const bio = props.bio;
   const profilepicture = props.profilepicture;
   const [contacts, setContacts] = useState([]);
-  const CurrentConversion = props.CurrentConversion;
+  
   
 
 
@@ -26,16 +27,21 @@ function ProfileinfoWidget(props){
     async function fetchContacts() {
       return await fetch(`/api/v1/${userID}/userinfo`)
         .then(res => res.json())
-        .then(data => setContacts(data.profileConfig.contacts))
+        .then(data => setContacts(data.contacts))
       
     }
     fetchContacts()
-
   }, [])
   
   
-  
-  const allContacts = contacts.map((contact, i) =>  <Card key={i} name={contact.username} UserID={userID} personContactingID={`${contact.userID}`} setCurrentConversion={CurrentConversion} change_page={(nextPage)=> changePage(nextPage)}  messages={[]} backgroundColor="#ffffff" Color='#000000'/> )
+  const allContacts = contacts.map((contact, i) =>  
+  <Card key={i} 
+        name={contact.username} 
+        UserID={userID} 
+        personContactingID={`${contact.userID}`} 
+        converstion_id={contact.conversationID} 
+        setCurrentConversation={CurrentConversion}
+        change_page={(nextPage)=> changePage(nextPage)}  messages={[]} backgroundColor="#ffffff" Color='#000000'/> )
   
 
 

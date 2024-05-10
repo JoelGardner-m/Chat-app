@@ -60,14 +60,14 @@ const Account = {
     password:"",
     contactRequest:[],
     notification:[{message:"welcome to Chat App. A place to meet new people or find a business patner all in one app."}],
+    contacts:[],
     profileConfig:{
         profileFindablity: true,
         SearchBy: {interest:{}, hobby:{}, profession:{}},
         backgroundColor: "white",
         profilePicture:"https://via.placeholder.com/50x50",
-        contacts:[],
         bio:'',
-        conversations:{}
+
       }
     
 
@@ -186,24 +186,28 @@ app.post('/requestContact', async (req, res) => {
 app.post('/acceptContactRequest', async (req, res)=>{
   const {senderID, accepter, index} = req.body;
   console.log('request accepted')
-  await removeItemFromArray(accepter, `notification`, index)
-  await removeItemFromArray(accepter, `contactRequest`, index)
-
+  
   const readAccepter = await readOneDocument(accepter)
   const readSenderID = await readOneDocument(senderID)
+  console.log(readAccepter.notification)
+  const newNotification = readAccepter.notification
+  newNotification.splice(index, 1)
+  await updateOneDocument(accepter, {[`notification`]:[...newNotification]}, )
+  //await removeItemFromArray(accepter, `contactRequest`, index)
 
-  if (readAccepter.profileConfig.contacts.includes(senderID)){
+  if (readAccepter.contacts.includes(senderID)){
     console.log("updated")
     return res.status(200).json({messgaes: "This person has already been added"})
   }
+  
+  const conversation = await insertOneDocument({particapants: [senderID, accepter], messages:[]}, `conversations`)
 
-  await updateOneDocument( `${accepter}`, { [`profileConfig.contacts`]: [...readAccepter.profileConfig.contacts, {username: readSenderID.username, userID:senderID, conversationID: `${senderID}#${accepter}`}] } )
-  await updateOneDocument( `${senderID}`, { [`profileConfig.contacts`]: [...readSenderID.profileConfig.contacts, {username: readAccepter.username, userID:accepter, conversationID: `${senderID}#${accepter}`}] } )
-  console.log("contact added")
+  await updateOneDocument( `${accepter}`, { [`contacts`]: [...readAccepter.contacts, {username: readSenderID.username, userID:senderID, conversationID: `${conversation}`}] } )
+  await updateOneDocument( `${senderID}`, { [`contacts`]: [...readSenderID.contacts, {username: readAccepter.username, userID:accepter, conversationID: `${conversation}`}] } )
+  console.log("contact added", conversation._id)
 
-  await updateOneDocument( `${accepter}`, { [`profileConfig.conversations.#${accepter}#${senderID}`]: {particapants: [senderID, accepter], messages:[]} } )
-  await updateOneDocument( `${senderID}`, { [`profileConfig.conversations.#${accepter}#${senderID}`]: {particapants: [senderID, accepter], messages:[]} } )
-  console.log("convo added")
+  await updateOneDocument( `${conversation}`, {particapants: [senderID, accepter], messages:[]}, `conversations` )
+  
   return res.status(200).json({messgaes: "Contact added"})
 
 })
@@ -216,17 +220,13 @@ app.delete('/declineRequest', async(req ,res) => {
   return res.json({message: 'you have declined message'})
 })
 
-app.get('/conversations/:userID/:contactingID', async (req, res)=>{
-  const {userID, contactingID} = req.params
-  const userConversations = await readOneDocument(userID);
+app.post('/conversations/:conversationsID', async (req, res)=>{
+  const {conversationsID} = req.params
+  const conversations = await readOneDocument(conversationsID, 'conversations');
+  console.log(conversations.messages)
   
-  const matchingConvo = Object.keys(userConversations.profileConfig.conversations).find((convoKey)=>{
-    return (convoKey === `#${userID}#${contactingID}`) || (`#${contactingID}#${userID}` === convoKey )
-  })
-  console.log('looking for convo', matchingConvo)
-  if (matchingConvo){
-    return res.json({conversationID: matchingConvo})
-  }
+  return res.json({messages: conversations.messages})
+  
 
   //return res.json({conversations: userConversations.profileConfig.conversations})
 
@@ -237,32 +237,14 @@ app.get('/conversations/:userID/:contactingID', async (req, res)=>{
 )
 
 
-
-
-app.post('/profile/:id/conversations', async (req, res)=>{
-  const {id} = req.params;
-  const {converstion_id} = req.body;
-
-  //console.log(`'${converstion_id}'`)
-  const userConversations = await readOneDocument(id);
-  
-  //console.log('getting convo', userConversations.profileConfig.conversations[ `${converstion_id}` ])
-  return res.json({conversation: userConversations.profileConfig.conversations[ `${converstion_id}` ]})
-
-
-})
-
-app.post('/:id/convo/addMessage', async (req, res)=>{
+app.post('/:conervationID/addMessage', async (req, res)=>{
   const {senderID, converstion_id, message} = req.body
   console.log('this is sender '+ message)
-  const readsenderID = await readOneDocument(senderID)
+  const readconverstionID = await readOneDocument(converstion_id, 'conversations')
   //readsenderID.profileConfig.conversations[`${converstion_id}`].messages.push({senderID: senderID, message: message})
     
-  readsenderID.profileConfig.conversations[`${converstion_id}`].particapants.forEach((user)=>{
-    addToArray(user, [`profileConfig.conversations.${converstion_id}.messages`], {senderID: senderID, username: readsenderID.username, message: message })
-    console.log('adding message to', user)
-  })
-  
+  await updateOneDocument( converstion_id , {['messages']: [...readconverstionID.messages, {senderID: senderID, message: message} ]} , 'conversations')
+  console.log(readconverstionID.messages)
   res.json("message sent")
  
 

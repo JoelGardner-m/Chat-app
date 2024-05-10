@@ -17,12 +17,13 @@ export function CoversationWidget(props) {
   function checkforlatesttext() {
     useEffect(() => {
       const interval = setInterval(() => {
-        axios.post(`/api/profile/${userID}/conversations`, {
+        axios.post(`/api/conversations/${converstion_id}`, {
           converstion_id: converstion_id
         })
         .then(res => {
-          const conversation = res.data.conversation.messages
-          SetlatestTextMessage( pre => pre === conversation[conversation.length-1].message ? pre : conversation[conversation.length-1].message);
+          const conversation = res.data.messages
+          console.log(conversation)
+          conversation.length !== 0 ? SetlatestTextMessage( pre => pre === conversation[conversation.length-1].message ? pre : conversation[conversation.length-1].message): null
         })
         .catch(err => {
           console.log(err);
@@ -38,7 +39,7 @@ export function CoversationWidget(props) {
 
   useEffect(() => {
     async function fetchConversion (){
-      return await fetch(`/api/profile/${userID}/conversations`, {
+      return await fetch(`/api/conversations/${converstion_id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -49,8 +50,7 @@ export function CoversationWidget(props) {
 
       })
       .then(res => res.json())
-      .then(data => setMessages(data.
-        conversation.messages
+      .then(data => setMessages(data.messages
         ))
 
 
@@ -118,7 +118,7 @@ export function CoversationWidget(props) {
         
         
         
-        fetch(`/api/${userID}/convo/addMessage` , {
+        fetch(`/api/${converstion_id}/addMessage` , {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
